@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-framework="javascript-es6">
+    <head>
         <meta charset="UTF-8" />
         <meta name="description" content="A TodoMVC written with JavaScript es5 features." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,17 +11,21 @@
         <section class="todoapp">
             <header class="header">
                 <h1>todos</h1>
-                <input class="new-todo" placeholder="What needs to be done?" autofocus />
+                <div class="add-row">
+                    <input class="new-todo" placeholder="What needs to be done?" aria-label="New task" autofocus />
+                    <button type="button" class="add-todo">Add</button>
+                </div>
             </header>
             <main class="main">
                 <div class="toggle-all-container">
-                    <input class="toggle-all" type="checkbox" />
+                    <input class="toggle-all" type="checkbox" aria-label="Mark all as complete" />
                     <label class="toggle-all-label" for="toggle-all">Mark all as complete</label>
                 </div>
                 <ul class="todo-list"></ul>
+                <nav class="pagination" aria-label="Pagination" hidden></nav>
             </main>
             <footer class="footer">
-                <span class="todo-count"></span>
+                <span class="todo-count" aria-live="polite"></span>
                 <ul class="filters">
                     <li>
                         <a href="#/" class="selected">All</a>

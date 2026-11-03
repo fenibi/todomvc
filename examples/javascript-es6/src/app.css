@@ -1,20 +1,468 @@
-.toggle-graph {
-    float: left;
-    margin-left: 16px;
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-}
-.toggle-graph svg {
-    height: 20px;
-    width: 20px;
-}
-.toggle-graph svg path {
-    fill: #777;
+/*
+ * Visual layer on top of todomvc-app-css (imported before this file).
+ * Selectors are prefixed with .todoapp so they win over the base styles.
+ */
+
+:root {
+    --color-bg: #f4f5f7;
+    --color-surface: #ffffff;
+    --color-text: #1f2933;
+    --color-muted: #52606d;
+    --color-border: #dde1e6;
+    --color-control: #6b7782;
+    --color-accent: #2b6f77;
+    --color-accent-hover: #215a61;
+    --color-accent-soft: #e6f1f2;
+    --color-on-accent: #ffffff;
+    --color-danger: #9b2c2c;
+    --color-focus: #1b5fa8;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+
+    --radius: 8px;
+    --control-size: 40px;
+    --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-.toggle-graph.active svg path,
-.toggle-graph:hover svg path,
-.toggle-graph:focus svg path {
-    fill: black;
+html body {
+    box-sizing: border-box;
+    max-width: 640px;
+    min-width: 0;
+    padding: var(--space-5) var(--space-4);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: 400 1rem/1.5 var(--font-body);
+}
+
+.todoapp *,
+.todoapp *::before,
+.todoapp *::after {
+    box-sizing: border-box;
+}
+
+/* Focus: one visible, high-contrast ring on every interactive element. */
+html :focus {
+    box-shadow: none;
+}
+
+html :focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+html .toggle-all:focus + label,
+html .toggle:focus + label {
+    box-shadow: none;
+}
+
+html .toggle-all:focus-visible + label {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+/* Card and header */
+.todoapp {
+    margin: 0 0 var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 3px rgba(31, 41, 51, 0.08);
+}
+
+.todoapp .header {
+    padding: var(--space-5) var(--space-4) var(--space-4);
+}
+
+.todoapp .header h1 {
+    position: static;
+    width: auto;
+    margin: 0 0 var(--space-4);
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: left;
+    color: var(--color-text);
+}
+
+.todoapp .add-row {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.todoapp .new-todo {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    height: 48px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--color-control);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    box-shadow: none;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-text);
+}
+
+.todoapp .new-todo::placeholder {
+    color: var(--color-muted);
+    font-style: normal;
+    font-weight: 400;
+    opacity: 1;
+}
+
+.todoapp .add-todo {
+    flex: none;
+    min-height: 48px;
+    padding: 0 var(--space-5);
+    border-radius: var(--radius);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.todoapp .add-todo:hover {
+    background: var(--color-accent-hover);
+}
+
+/* Toggle all: a visible labelled row instead of the chevron overlay. */
+.todoapp .main {
+    border-top: 1px solid var(--color-border);
+}
+
+.todoapp .toggle-all-container {
+    position: relative;
+}
+
+.todoapp .toggle-all-container .toggle-all {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 0;
+}
+
+.todoapp .toggle-all-container .toggle-all + label {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-3);
+    width: auto;
+    min-height: var(--control-size);
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    cursor: pointer;
+}
+
+.todoapp .toggle-all-container .toggle-all + label::before {
+    content: "";
+    display: block;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 2px solid var(--color-control);
+    border-radius: 50%;
+    transform: none;
+}
+
+.todoapp .toggle-all-container .toggle-all:checked + label::before {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    box-shadow: inset 0 0 0 3px var(--color-surface);
+}
+
+/* Todo rows: [complete] [text .......] [Edit] [Delete] */
+.todoapp .todo-list li {
+    font-size: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.todoapp .todo-list li:last-child {
+    border-bottom: 0;
+}
+
+.todoapp .todo-list li .view {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
+}
+
+.todoapp .todo-list li .toggle {
+    position: static;
+    flex: none;
+    width: var(--control-size);
+    height: var(--control-size);
+    margin: 0;
+    border: 0;
+    opacity: 1;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background: no-repeat center / 24px 24px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%236b7782' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.todoapp .todo-list li .toggle:checked {
+    background: no-repeat center / 24px 24px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%232b6f77'/%3E%3Cpath d='M7 12.5l3.2 3.2L17 8.8' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.todoapp .todo-list li .toggle + label,
+.todoapp .todo-list li .toggle:checked + label {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: var(--space-2) var(--space-1);
+    background: none;
+    font-weight: 400;
+    line-height: 1.4;
+    word-break: normal;
+    overflow-wrap: anywhere;
+}
+
+.todoapp .todo-list li label {
+    color: var(--color-text);
+}
+
+.todoapp .todo-list li.completed label {
+    color: var(--color-muted);
+    text-decoration: line-through;
+}
+
+.todoapp .todo-list li .view .edit-btn,
+.todoapp .todo-list li .view .destroy {
+    position: static;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    min-width: var(--control-size);
+    min-height: var(--control-size);
+    margin: 0;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+.todoapp .todo-list li .view .edit-btn:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    color: var(--color-accent-hover);
+}
+
+.todoapp .todo-list li .view .destroy::after {
+    content: none;
+}
+
+.todoapp .todo-list li .view .destroy:hover {
+    border-color: var(--color-danger);
+    background: #fbeeee;
+    color: var(--color-danger);
+}
+
+/* Editing: hide the row, show the input at full width. */
+.todoapp .todo-list li.editing {
+    padding: var(--space-2) var(--space-4);
+}
+
+.todoapp .todo-list li.editing .view {
+    display: none;
+}
+
+.todoapp .todo-list li.editing .edit {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin: 0;
+    padding: var(--space-2) var(--space-3);
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius);
+    box-shadow: none;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+/* Pagination */
+.todoapp .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--color-border);
+}
+
+.todoapp .pagination[hidden] {
+    display: none;
+}
+
+.todoapp .pagination .page-btn {
+    min-width: var(--control-size);
+    min-height: var(--control-size);
+    padding: 0 var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+.todoapp .pagination .page-btn:hover:not(:disabled) {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+}
+
+.todoapp .pagination .page-btn[aria-current="page"] {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+}
+
+.todoapp .pagination .page-btn:disabled {
+    color: var(--color-muted);
+    opacity: 0.55;
+    cursor: default;
+}
+
+/* Footer: count, filters and clear button wrap instead of overlapping. */
+.todoapp .footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-3);
+    height: auto;
+    padding: var(--space-2) var(--space-4);
+    border-top: 1px solid var(--color-border);
+    font-size: 0.9375rem;
+    text-align: left;
+    color: var(--color-muted);
+}
+
+.todoapp .footer::before {
+    content: none;
+}
+
+.todoapp .footer .todo-count {
+    float: none;
+}
+
+.todoapp .footer .todo-count strong {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.todoapp .footer .filters {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-1);
+}
+
+.todoapp .footer .filters li {
+    display: block;
+}
+
+.todoapp .footer .filters li a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--control-size);
+    margin: 0;
+    padding: 0 var(--space-3);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    color: var(--color-muted);
+}
+
+.todoapp .footer .filters li a:hover {
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+.todoapp .footer .filters li a.selected {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    font-weight: 600;
+    color: var(--color-accent-hover);
+}
+
+.todoapp .footer .clear-completed {
+    float: none;
+    min-height: var(--control-size);
+    padding: 0 var(--space-3);
+    border-radius: var(--radius);
+    line-height: 1.4;
+    color: var(--color-muted);
+    cursor: pointer;
+}
+
+.todoapp .footer .clear-completed:hover {
+    color: var(--color-text);
+    text-decoration: underline;
+}
+
+.info {
+    margin: var(--space-5) auto 0;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    text-shadow: none;
+}
+
+.info p {
+    margin: var(--space-1) 0;
+    line-height: 1.4;
+}
+
+.info a {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    html body {
+        padding: var(--space-4) var(--space-3);
+    }
+
+    .todoapp .header {
+        padding: var(--space-4) var(--space-3);
+    }
+
+    .todoapp .add-todo {
+        padding: 0 var(--space-4);
+    }
+
+    .todoapp .todo-list li .view {
+        padding-right: var(--space-3);
+    }
+
+    .todoapp .footer {
+        padding: var(--space-2) var(--space-3);
+    }
+
+    /* Filters take their own centered row below count and clear button. */
+    .todoapp .footer .filters {
+        order: 3;
+        flex: 1 0 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .todoapp * {
+        transition: none;
+    }
 }
