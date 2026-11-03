@@ -107,13 +107,13 @@ footer { font-size: 0.86rem; color: var(--muted); text-align: left; }
   <div class="facts">
     <span>3 de noviembre de 2026</span>
     <span>Rama <code>feat/FvillaGit7-redisenio</code></span>
-    <span>Commits <code>929f8d43</code> (rediseño), <code>af8ac036</code> (nota de despliegue) y <code>eb8dfea2</code> (prueba, vacío)</span>
-    <span>Publicación final <code>dpl_9sd8NnbpEVqh6cJVM4G5e4KA4tHz</code></span>
+    <span>Último commit <code>5fa49aab</code></span>
+    <span>Publicación final <code>dpl_ANmMzdeYh2EfmUqFjEFB3xkjr3wf</code></span>
     <span>Carpeta <code>todomvc/examples/javascript-es6</code></span>
   </div>
   <div class="links">
     <div class="link"><span class="lbl">WEB PÚBLICA</span><a href="https://taller-entre-todos.vercel.app" target="_blank" rel="noopener">https://taller-entre-todos.vercel.app</a></div>
-    <div class="link"><span class="lbl">CÓDIGO EN GITHUB</span><a href="https://github.com/FvillaGit7/todomvc/tree/feat/FvillaGit7-redisenio" target="_blank" rel="noopener">https://github.com/FvillaGit7/todomvc/tree/feat/FvillaGit7-redisenio</a><span class="small">Commit 929f8d43, en el fork FvillaGit7/todomvc</span></div>
+    <div class="link"><span class="lbl">CÓDIGO EN GITHUB</span><a href="https://github.com/FvillaGit7/todomvc/tree/feat/FvillaGit7-redisenio" target="_blank" rel="noopener">https://github.com/FvillaGit7/todomvc/tree/feat/FvillaGit7-redisenio</a><span class="small">Rama en el fork FvillaGit7/todomvc; las evidencias están en <a href="https://github.com/FvillaGit7/todomvc/tree/feat/FvillaGit7-redisenio/examples/javascript-es6/evidencias" target="_blank" rel="noopener">examples/javascript-es6/evidencias</a></span></div>
     <div class="link"><span class="lbl">VIDEO DEL RECORRIDO</span><a href="https://taller-entre-todos.vercel.app/evidencias/recorrido.webm" target="_blank" rel="noopener">https://taller-entre-todos.vercel.app/evidencias/recorrido.webm</a><span class="small">WebM, 1:23,6, 7,1 MB</span></div>
   </div>
 </header>
@@ -218,7 +218,13 @@ footer { font-size: 0.86rem; color: var(--muted); text-align: left; }
 
 <section class="sheet" aria-labelledby="h-diff">
   <h2 id="h-diff">Diff</h2>
-  <p>Commit <code>929f8d43</code> sobre <code>ff43b02</code>: 16 archivos, +1308 / −121. <code>dist/</code> se regeneró con <code>npm run build</code>, nunca a mano. Después, <code>af8ac036</code> sumó 4 líneas a <code>CLAUDE.md</code> para documentar el despliegue, y <code>eb8dfea2</code> es un commit vacío para probar el despliegue automático. Ninguno de los dos cambia la app.</p>
+  <p>Commit <code>929f8d43</code> sobre <code>ff43b02</code>: 16 archivos, +1308 / −121. <code>dist/</code> se regeneró con <code>npm run build</code>, nunca a mano. Ninguno de los commits posteriores cambia la app:</p>
+  <ul>
+    <li><code>af8ac036</code>: suma 4 líneas a <code>CLAUDE.md</code> para documentar el despliegue.</li>
+    <li><code>eb8dfea2</code>: commit vacío para probar el despliegue automático.</li>
+    <li><code>413ef437</code>: la captura “antes” del TodoMVC original.</li>
+    <li><code>5fa49aab</code>: las evidencias de la práctica en <code>examples/javascript-es6/evidencias/</code>. Son 13 archivos: plan, análisis, verificación, despliegue, el informe HTML y las capturas. No incluye el video duplicado, que ya está en <code>dist/evidencias/</code>.</li>
+  </ul>
   <div class="scroll">
     <table>
       <thead><tr><th>Archivo</th><th>Líneas</th><th>Cambio</th></tr></thead>
@@ -254,17 +260,17 @@ footer { font-size: 0.86rem; color: var(--muted); text-align: left; }
     <div class="ver final">
       <h3>Publicación final <span class="tag ok">En producción</span></h3>
       <dl>
-        <dt>Despliegue</dt><dd class="mono">dpl_9sd8NnbpEVqh6cJVM4G5e4KA4tHz</dd>
-        <dt>URL</dt><dd class="mono">taller-entre-todos-a8opz9v64-fvilla-7987.vercel.app</dd>
-        <dt>Origen</dt><dd>Push a GitHub <code>FvillaGit7/todomvc</code>, rama <code>feat/FvillaGit7-redisenio</code>, commit <code>eb8dfea2</code>, desplegado automáticamente</dd>
+        <dt>Despliegue</dt><dd class="mono">dpl_ANmMzdeYh2EfmUqFjEFB3xkjr3wf</dd>
+        <dt>URL</dt><dd class="mono">taller-entre-todos-oj7wz6wwy-fvilla-7987.vercel.app</dd>
+        <dt>Origen</dt><dd>Push a GitHub <code>FvillaGit7/todomvc</code>, rama <code>feat/FvillaGit7-redisenio</code>, commit <code>5fa49aab</code>, desplegado automáticamente</dd>
         <dt>Alias</dt><dd>taller-entre-todos.vercel.app</dd>
       </dl>
     </div>
   </div>
   <p>Las dos están en estado READY, en el proyecto <code>taller-entre-todos</code> de la cuenta personal <code>fvilla-7987</code>, y tienen la misma app. El proyecto ahora está conectado al fork <code>FvillaGit7/todomvc</code>, con <code>feat/FvillaGit7-redisenio</code> como rama de producción. Publica el <code>dist/</code> commiteado sin paso de build, con raíz en <code>examples/javascript-es6/dist</code>. Se comprobó así:</p>
   <ul>
-    <li>Un push de prueba generó el despliegue en producción a los 6 segundos, y el dominio pasó solo a <code>dpl_9sd8…</code> sin promote manual, según <code>get_deployment</code> sobre <code>taller-entre-todos.vercel.app</code>.</li>
-    <li>Los MD5 de <code>index.html</code>, <code>app.bundle.js</code>, <code>app.css</code>, <code>base.js</code> y <code>evidencias/recorrido.webm</code> coinciden con los del commit <code>eb8dfea2</code>. La raíz del repositorio no queda expuesta.</li>
+    <li>Cada push a la rama genera un despliegue en producción en segundos y el dominio pasa solo, sin promote manual. Se comprobó con el push de prueba <code>eb8dfea2</code> y se repitió con <code>413ef437</code> y <code>5fa49aab</code>. Hoy <code>taller-entre-todos.vercel.app</code> apunta a <code>dpl_ANmM…</code>, según <code>get_deployment</code>.</li>
+    <li>Los MD5 de <code>index.html</code>, <code>app.bundle.js</code>, <code>app.css</code>, <code>base.js</code> y <code>evidencias/recorrido.webm</code> coinciden con los del commit <code>5fa49aab</code>. La raíz del repositorio no queda expuesta.</li>
     <li>Una prueba con Playwright en la web publicada: crear tareas, completar una a nombre de Ana y filtrar dieron el resultado esperado, sin errores de JavaScript.</li>
   </ul>
   <p class="small">Despliegues intermedios, todos con la misma app:</p>
@@ -274,6 +280,7 @@ footer { font-size: 0.86rem; color: var(--muted); text-align: left; }
     <li><code>dpl_7nV7…</code>: vista previa automática de <code>af8ac036</code>, generada al probar la conexión.</li>
     <li><code>dpl_H5fU…</code>: el redeploy roto del incidente.</li>
     <li><code>dpl_LpVc…</code>: la corrección de <code>af8ac036</code>, promovida a mano.</li>
+    <li><code>dpl_9sd8…</code> (<code>eb8dfea2</code>) y <code>dpl_GaCT…</code> (<code>413ef437</code>): despliegues automáticos de pushes posteriores.</li>
   </ul>
   <p class="small"><code>verificacion.md</code> dice que la versión grabada era el único despliegue porque así era al momento de grabar. Las URL propias de cada despliegue piden iniciar sesión en Vercel; solo el alias público se abre sin cuenta.</p>
   <div class="note" style="background:var(--bad-bg)">
@@ -336,6 +343,6 @@ footer { font-size: 0.86rem; color: var(--muted); text-align: left; }
   <p style="font-size:0.92rem"><span class="tag ok">Resuelto</span> <strong>Despliegue automático:</strong> el proyecto está conectado a <code>FvillaGit7/todomvc</code>, con <code>feat/FvillaGit7-redisenio</code> como rama de producción. El push de prueba <code>eb8dfea2</code> se publicó solo en producción a los 6 segundos, sin promote manual, y se verificó con MD5 y Playwright.</p>
 </section>
 
-<footer>Fuentes: <code>evidencias/plan.md</code>, <code>analisis.md</code>, <code>verificacion.md</code> y <code>despliegue.md</code>, los commits <code>929f8d43</code>, <code>af8ac036</code> y <code>eb8dfea2</code>, las capturas de <code>evidencias/</code> y consultas a Vercel MCP del 3 de noviembre de 2026. No incluye claves, tokens, logs privados ni conversaciones.</footer>
+<footer>Fuentes: <code>evidencias/plan.md</code>, <code>analisis.md</code>, <code>verificacion.md</code> y <code>despliegue.md</code>, los commits <code>929f8d43</code> a <code>5fa49aab</code> de la rama <code>feat/FvillaGit7-redisenio</code>, las capturas de <code>evidencias/</code> y consultas a Vercel MCP del 3 de noviembre de 2026. No incluye claves, tokens, logs privados ni conversaciones.</footer>
 
 </main>
