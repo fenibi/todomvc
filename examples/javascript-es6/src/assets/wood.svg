@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+<defs>
+    <filter id="w" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.0018 0.055" numOctaves="4" seed="4" result="n"/>
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.09  0 0 0 0 0.055  0 0 0 0 0.03  1.8 0 0 0 -0.55" result="dark"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.004 0.3" numOctaves="2" seed="8" result="n2"/>
+        <feColorMatrix in="n2" type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.38  0 0 0 0 0.22  0.6 0 0 0 -0.32" result="light"/>
+        <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="dark"/><feMergeNode in="light"/></feMerge>
+    </filter>
+</defs>
+<rect width="1600" height="1000" fill="#3A2A1D" filter="url(#w)"/>
+<rect x="0" y="150" width="1600" height="3" fill="#120C07" opacity="0.7"/><rect x="0" y="153" width="1600" height="1" fill="#6B4E33" opacity="0.25"/><rect x="0" y="320" width="1600" height="3" fill="#120C07" opacity="0.7"/><rect x="0" y="323" width="1600" height="1" fill="#6B4E33" opacity="0.25"/><rect x="0" y="490" width="1600" height="3" fill="#120C07" opacity="0.7"/><rect x="0" y="493" width="1600" height="1" fill="#6B4E33" opacity="0.25"/><rect x="0" y="660" width="1600" height="3" fill="#120C07" opacity="0.7"/><rect x="0" y="663" width="1600" height="1" fill="#6B4E33" opacity="0.25"/><rect x="0" y="830" width="1600" height="3" fill="#120C07" opacity="0.7"/><rect x="0" y="833" width="1600" height="1" fill="#6B4E33" opacity="0.25"/>
+</svg>

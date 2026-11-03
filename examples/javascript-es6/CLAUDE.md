@@ -2,7 +2,24 @@
 
 ## Objetivo y alcance
 Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
-- Decisiones visuales: pendientes, se definen en la etapa siguiente.
+- Identidad: **QuestLog**, diario de explorador abierto sobre un escritorio de
+  madera (skeuomorfismo medieval). Eslogan: "Turn your tasks into adventures".
+- Paleta: pergamino #E8D5AC, pergamino claro #F5E6C8, cuero #2C2118,
+  tinta sepia #493222, dorado #C49A46 (solo decorativo o sobre cuero/madera:
+  1.8:1 sobre pergamino), rojo lacre #813F32.
+- Tipografías: Cinzel (marca y títulos), Lora (todo lo demás), vía Google Fonts
+  (única excepción aprobada a "sin servicios externos").
+- Todo el texto de la interfaz en inglés. El `<h1>` sigue siendo "todos" y
+  visible (lo exige `cypress/e2e/spec.cy.js:482`); la marca va aparte.
+- Referencia visual: libro abierto (izquierda: marca, dragón, castillo;
+  derecha: estandarte, campo, tiras de pergamino por tarea, barra de filtros).
+  Objetos sobre el escritorio y lámpara de aceite solo ≥1280px; la llama se
+  anima con CSS y se detiene con `prefers-reduced-motion`.
+- Recursos en `src/assets/` (solo se usan desde `app.css` como fondos
+  decorativos): SVG dibujados a mano (estandarte, marcador, ornamentos,
+  casillas, banderín, objetos, lámpara) y SVG generados (libro, tiras, campo,
+  marco de página, papel, madera). `dragon.png` y `castle.png` son trazos de
+  tinta extraídos de la imagen de referencia.
 - Fuera de alcance: migrar a otro framework, agregar librerías de UI,
   backend, persistencia o servicios externos.
 
@@ -45,6 +62,19 @@ Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
 - Orden invertido de la lista: la tarea más nueva arriba (`data.reverse()` en `template.js`).
 - Escape de HTML en títulos.
 - Almacenamiento en memoria (sin persistencia) — no cambiar.
+
+## Limitaciones conocidas (previas, no corregir sin decisión explícita)
+- `view.js` escribe `style.display` en `.main`, `.footer` y `.clear-completed`:
+  no cambiar su `display` desde CSS. Por eso el pie usa `.footer-inner` como
+  grilla y el libro se pinta en el fondo de `.todoapp`.
+- `.header` usa `display: contents` para ubicar marca (página izquierda) y
+  campo nuevo (página derecha) en la grilla del libro sin reordenar el DOM.
+- La lista se repinta entera con `innerHTML`: no animar la entrada de `li`.
+- Editar solo con doble clic (sin acceso por teclado).
+- "Mark all as complete" con Espacio marca la casilla pero no las tareas
+  (`view.js` solo escucha el clic en la etiqueta). No agregar `id="toggle-all"`:
+  el `for` del label provocaría un doble toggle.
+- Al eliminar una tarea el foco vuelve al `body`.
 
 ## Cómo verificar
 1. `npm run dev` y probar manualmente cada punto de "Comportamiento a conservar".
