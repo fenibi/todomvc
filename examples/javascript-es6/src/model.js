@@ -12,14 +12,17 @@ class Model {
      * Creates a new todo model
      *
      * @param {string} [title] The title of the task
+     * @param {number|null} [assignee] The member ID in charge, or null for "General"
      * @param {function} [callback] The callback to fire after the model is created
      */
-    create(title, callback) {
+    create(title, assignee, callback) {
         title = title || "";
 
         const newItem = {
             title: title.trim(),
             completed: false,
+            assignee: assignee || null,
+            completedBy: null,
         };
 
         this.storage.save(newItem, callback);

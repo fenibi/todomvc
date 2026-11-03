@@ -1,20 +1,551 @@
-.toggle-graph {
-    float: left;
-    margin-left: 16px;
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-}
-.toggle-graph svg {
-    height: 20px;
-    width: 20px;
-}
-.toggle-graph svg path {
-    fill: #777;
+/* Entre Todos: notas celestes y verde lima, tono familiar.
+   Reemplaza a todomvc-app-css; las clases que usa el JS se conservan. */
+
+:root {
+    --bg: #eaf6fc;
+    --surface: #ffffff;
+    --ink: #1c2b33;
+    --ink-soft: #475a63;
+    --sky: #c9ebfa;
+    --lime: #dcf7a6;
+    --lime-strong: #b8e86a;
+    --brand: #0b5f85;
+    --line: #2d6a85;
+    --check: #3f6212;
+    --danger: #9b2c24;
+    --focus: #0a3f5c;
+    --panel-line: #b9dcec;
+    --radius: 14px;
+    /* Solo las notas tienen sombra: son lo único "pegado" en el tablero */
+    --note-shadow: 0 1px 0 rgba(28, 43, 51, 0.14), 0 6px 12px -4px rgba(28, 43, 51, 0.22);
 }
 
-.toggle-graph.active svg path,
-.toggle-graph:hover svg path,
-.toggle-graph:focus svg path {
-    fill: black;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-width: 0;
+    max-width: none;
+    padding: 24px 16px;
+    font: 16px/1.5 ui-rounded, "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    color: var(--ink);
+    background-color: var(--bg);
+    overflow-wrap: break-word;
+}
+
+button,
+input,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Foco visible en todos los controles */
+:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+}
+
+/* ---------- Contenedores ---------- */
+
+.todoapp,
+.members,
+.info {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.todoapp,
+.members {
+    padding: 20px;
+    background: var(--surface);
+    border: 2px solid var(--panel-line);
+    border-radius: 20px;
+}
+
+.members {
+    margin-top: 24px;
+}
+
+/* ---------- Encabezado ---------- */
+
+.header h1 {
+    margin: 0;
+    font-size: clamp(2rem, 8vw, 2.75rem);
+    line-height: 1.1;
+    font-weight: 800;
+    color: var(--brand);
+}
+
+.tagline {
+    margin: 6px 0 20px;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+}
+
+.new-todo-row {
+    display: grid;
+    grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+    gap: 12px;
+}
+
+.field label,
+.member-form > label,
+.completer label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.new-todo,
+.assignee-select,
+.member-name,
+.member-edit,
+.completer-select,
+.completed-by,
+.edit {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px 12px;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 10px;
+}
+
+.new-todo::placeholder,
+.member-name::placeholder {
+    color: var(--ink-soft);
+}
+
+.hint {
+    margin: 8px 0 0;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+}
+
+/* ---------- Checkboxes ---------- */
+
+.toggle,
+.toggle-all {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.toggle:checked,
+.toggle-all:checked {
+    border-color: var(--check);
+    background: var(--check) url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2012.5l4.5%204.5L19%207.5%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E') center / 20px no-repeat;
+}
+
+/* ---------- Lista de tareas ---------- */
+
+.main {
+    margin-top: 20px;
+}
+
+.toggle-all-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.toggle-all-label {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.todo-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.todo-list li {
+    position: relative;
+    margin: 0 0 12px;
+    padding: 14px 16px;
+    background: var(--sky);
+    border-radius: var(--radius) var(--radius) var(--radius) 4px;
+    box-shadow: var(--note-shadow);
+    transform: rotate(-0.5deg);
+}
+
+/* Notas pegadas a mano: se alterna la inclinación, sin animarla */
+.todo-list li:nth-child(even) {
+    transform: rotate(0.4deg);
+}
+
+.todo-list li.editing {
+    transform: none;
+}
+
+/* Esquina doblada de "nota" */
+.todo-list li::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(225deg, var(--surface) 50%, rgba(28, 43, 51, 0.12) 50%);
+    border-radius: 0 var(--radius) 0 6px;
+}
+
+.todo-list li.completed {
+    background: var(--lime);
+}
+
+.view {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+        "check title actions"
+        ".     meta  meta";
+    gap: 6px 12px;
+    align-items: start;
+}
+
+.view .toggle {
+    grid-area: check;
+}
+
+.todo-title {
+    grid-area: title;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+    padding-top: 1px;
+}
+
+.todo-list li.completed .todo-title {
+    color: var(--ink-soft);
+    text-decoration: line-through;
+}
+
+.todo-meta {
+    grid-area: meta;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    font-size: 0.95rem;
+}
+
+.tag-general {
+    padding: 1px 10px;
+    font-weight: 700;
+    background: var(--surface);
+    border: 2px dashed var(--line);
+    border-radius: 999px;
+}
+
+.todo-done-by {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+}
+
+.todo-done-by label {
+    font-weight: 600;
+}
+
+.completed-by {
+    width: auto;
+    max-width: 100%;
+    min-height: 36px;
+    padding: 4px 8px;
+}
+
+.todo-actions {
+    grid-area: actions;
+    display: flex;
+    gap: 8px;
+}
+
+.edit-btn,
+.destroy,
+.member-remove,
+.clear-completed,
+.button-primary,
+.button-secondary {
+    min-height: 36px;
+    padding: 4px 14px;
+    font-weight: 700;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    flex: none;
+    white-space: nowrap;
+    overflow-wrap: normal;
+}
+
+.destroy,
+.member-remove {
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.edit-btn:hover,
+.clear-completed:hover,
+.button-secondary:hover {
+    background: var(--bg);
+}
+
+.destroy:hover,
+.member-remove:hover {
+    background: #fbeceb;
+}
+
+.button-primary {
+    color: #fff;
+    background: var(--brand);
+    border-color: var(--brand);
+}
+
+.button-primary:hover {
+    background: var(--focus);
+}
+
+.todo-list li .edit {
+    display: none;
+}
+
+.todo-list li.editing .view {
+    display: none;
+}
+
+.todo-list li.editing .edit {
+    display: block;
+}
+
+/* ---------- Pie de la lista ---------- */
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 2px dashed var(--sky);
+}
+
+.todo-count strong {
+    font-weight: 800;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.filters a {
+    display: inline-block;
+    padding: 4px 12px;
+    color: var(--ink);
+    text-decoration: none;
+    border: 2px solid transparent;
+    border-radius: 999px;
+}
+
+.filters a:hover {
+    border-color: var(--line);
+}
+
+.filters a.selected {
+    font-weight: 700;
+    background: var(--sky);
+    border-color: var(--line);
+}
+
+/* ---------- Integrantes ---------- */
+
+.members h2,
+.completer h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--brand);
+}
+
+.member-form {
+    margin-top: 16px;
+}
+
+.member-form-row {
+    display: flex;
+    gap: 8px;
+}
+
+.member-form-row .member-name {
+    flex: 1 1 auto;
+}
+
+.member-error {
+    margin: 8px 0 0;
+    font-weight: 600;
+    color: var(--danger);
+}
+
+.member-error:empty {
+    margin: 0;
+}
+
+.member-name[aria-invalid="true"] {
+    border-color: var(--danger);
+}
+
+.member-list {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.member-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 8px 0;
+    border-bottom: 2px dashed var(--panel-line);
+}
+
+.member-list li:last-child {
+    border-bottom: 0;
+}
+
+.member-list .member-edit {
+    flex: 1 1 10rem;
+    width: auto;
+}
+
+.member-note {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+}
+
+.member-empty {
+    color: var(--ink-soft);
+}
+
+/* ---------- Diálogo "¿Quién la completó?" ---------- */
+
+.completer {
+    width: calc(100% - 32px);
+    max-width: 420px;
+    padding: 20px;
+    color: var(--ink);
+    border: 0;
+    border-top: 8px solid var(--lime-strong);
+    border-radius: 16px;
+}
+
+.completer::backdrop {
+    background: rgba(12, 40, 55, 0.45);
+}
+
+.completer-detail {
+    margin: 8px 0 16px;
+}
+
+.completer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+/* ---------- Pie de página ---------- */
+
+.info {
+    margin-top: 24px;
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--ink-soft);
+}
+
+.info p {
+    margin: 4px 0;
+}
+
+.info a {
+    color: var(--brand);
+    font-weight: 700;
+}
+
+/* ---------- Pantallas angostas (375 px) ---------- */
+
+@media (max-width: 480px) {
+    body {
+        padding: 16px 12px;
+    }
+
+    .todoapp,
+    .members {
+        padding: 16px;
+    }
+
+    .new-todo-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .view {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            "check title"
+            ".     meta"
+            ".     actions";
+    }
+
+    .footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
 }
