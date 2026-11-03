@@ -2,13 +2,17 @@
  * Visual layer on top of todomvc-app-css (imported before this file).
  * Selectors are prefixed with .todoapp so they win over the base styles.
  *
- * Concept: a ruled notebook sheet. Blue rules separate the rows, a red margin
- * line runs down the checkbox column, and tasks are set in a serif face.
+ * Two themes share one structure; only the tokens below change.
+ *   light: a ruled notebook sheet (serif tasks, ink-blue accent, red margin).
+ *   dark:  a glass HUD panel (cyan glow, violet margin line, green "done").
+ * theme.js sets data-theme on <html>.
  */
 
 :root {
-    --color-desk: #dfe5ee;
+    /* Light theme (default when no data-theme is set) */
+    --desk-bg: #dfe5ee;
     --color-sheet: #fdfdfb;
+    --color-field: #ffffff;
     --color-ink: #1d2a4d;
     --color-muted: #4d5873;
     --color-rule: #c9d6ea;
@@ -18,10 +22,21 @@
     --color-accent-hover: #233f85;
     --color-accent-soft: #e8eefb;
     --color-on-accent: #ffffff;
+    --color-done: #2c4fa3;
     --color-margin: #c8483f;
     --color-danger: #a52f27;
     --color-danger-soft: #fbeceb;
     --color-focus: #b45309;
+
+    --sheet-shadow: 6px 6px 0 #c3cde0;
+    --sheet-shadow-small: 4px 4px 0 #c3cde0;
+    --glow: none;
+    --title-glow: none;
+    --font-write: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --font-title: var(--font-write);
+    --title-size: 2.5rem;
+    --title-spacing: -0.01em;
+    --placeholder-style: italic;
 
     --space-1: 4px;
     --space-2: 8px;
@@ -33,7 +48,53 @@
     --control-size: 40px;
     --margin-x: 52px;
     --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-write: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+
+    color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+    --desk-bg:
+        radial-gradient(ellipse 60% 45% at 85% 0%, rgba(139, 92, 246, 0.22), transparent 70%),
+        radial-gradient(ellipse 55% 45% at 5% 100%, rgba(34, 211, 238, 0.14), transparent 70%),
+        linear-gradient(rgba(34, 211, 238, 0.045) 1px, transparent 1px) 0 0 / 32px 32px,
+        linear-gradient(90deg, rgba(34, 211, 238, 0.045) 1px, transparent 1px) 0 0 / 32px 32px,
+        #060a13;
+    --color-sheet: #0c1425;
+    --color-field: #081020;
+    --color-ink: #e6f1ff;
+    --color-muted: #9fb2cf;
+    --color-rule: #1c2b47;
+    --color-rule-strong: #2a6a80;
+    --color-control: #7890b3;
+    --color-accent: #22d3ee;
+    --color-accent-hover: #67e8f9;
+    --color-accent-soft: rgba(34, 211, 238, 0.12);
+    --color-on-accent: #04202a;
+    --color-done: #4ade80;
+    --color-margin: #8b5cf6;
+    --color-danger: #fb923c;
+    --color-danger-soft: rgba(251, 146, 60, 0.14);
+    --color-focus: #facc15;
+
+    --sheet-shadow:
+        0 0 0 1px rgba(34, 211, 238, 0.4),
+        0 0 32px rgba(34, 211, 238, 0.18),
+        0 24px 48px rgba(0, 0, 0, 0.55);
+    --sheet-shadow-small:
+        0 0 0 1px rgba(34, 211, 238, 0.4),
+        0 0 20px rgba(34, 211, 238, 0.16),
+        0 14px 28px rgba(0, 0, 0, 0.5);
+    --glow: 0 0 18px rgba(34, 211, 238, 0.45);
+    --title-glow: 0 0 22px rgba(34, 211, 238, 0.55);
+    --font-write: var(--font-body);
+    --font-title: var(--font-body);
+    --title-size: 2.25rem;
+    --title-spacing: 0.04em;
+    --placeholder-style: normal;
+
+    --radius: 10px;
+
+    color-scheme: dark;
 }
 
 html body {
@@ -41,7 +102,8 @@ html body {
     max-width: 640px;
     min-width: 0;
     padding: var(--space-5) var(--space-4);
-    background: var(--color-desk);
+    background: var(--desk-bg);
+    background-attachment: fixed;
     color: var(--color-ink);
     font: 400 1rem/1.5 var(--font-body);
 }
@@ -72,16 +134,17 @@ html .toggle-all:focus-visible + label {
     outline-offset: 2px;
 }
 
-/* The sheet: one page with a hard offset edge, like paper on a desk. */
+/* The sheet / panel */
 .todoapp {
     margin: 0 0 var(--space-5);
     background: var(--color-sheet);
     border: 1px solid var(--color-rule-strong);
     border-radius: var(--radius);
-    box-shadow: 6px 6px 0 #c3cde0;
+    box-shadow: var(--sheet-shadow);
 }
 
 .todoapp .header {
+    position: relative;
     padding: var(--space-5) var(--space-4) var(--space-4);
 }
 
@@ -89,13 +152,52 @@ html .toggle-all:focus-visible + label {
     position: static;
     width: auto;
     margin: 0 0 var(--space-4);
-    font-family: var(--font-write);
-    font-size: 2.5rem;
+    font-family: var(--font-title);
+    font-size: var(--title-size);
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: var(--title-spacing);
     line-height: 1.1;
     text-align: left;
     color: var(--color-ink);
+    text-shadow: var(--title-glow);
+}
+
+/* Theme switch: a labelled button with a small indicator light. */
+.todoapp .theme-toggle {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--control-size);
+    padding: 0 var(--space-3);
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius);
+    background: var(--color-field);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    cursor: pointer;
+}
+
+.todoapp .theme-toggle::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--color-control);
+    border-radius: 50%;
+}
+
+.todoapp .theme-toggle[aria-checked="true"]::before {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    box-shadow: var(--glow);
+}
+
+.todoapp .theme-toggle:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
 }
 
 .todoapp .add-row {
@@ -111,7 +213,7 @@ html .toggle-all:focus-visible + label {
     padding: 0 var(--space-3);
     border: 1px solid var(--color-control);
     border-radius: var(--radius);
-    background: #ffffff;
+    background: var(--color-field);
     box-shadow: none;
     font-family: var(--font-write);
     font-size: 1.125rem;
@@ -121,9 +223,13 @@ html .toggle-all:focus-visible + label {
 
 .todoapp .new-todo::placeholder {
     color: var(--color-muted);
-    font-style: italic;
+    font-style: var(--placeholder-style);
     font-weight: 400;
     opacity: 1;
+}
+
+.todoapp .new-todo:hover {
+    border-color: var(--color-accent);
 }
 
 .todoapp .add-todo {
@@ -132,6 +238,7 @@ html .toggle-all:focus-visible + label {
     padding: 0 var(--space-5);
     border-radius: var(--radius);
     background: var(--color-accent);
+    box-shadow: var(--glow);
     color: var(--color-on-accent);
     font-size: 1rem;
     font-weight: 600;
@@ -189,14 +296,14 @@ html .toggle-all:focus-visible + label {
     height: 20px;
     padding: 0;
     border: 2px solid var(--color-control);
-    border-radius: var(--radius);
+    border-radius: 4px;
     background: var(--color-sheet);
     transform: none;
 }
 
 .todoapp .toggle-all-container .toggle-all:checked + label::before {
-    border-color: var(--color-accent);
-    background: var(--color-accent);
+    border-color: var(--color-done);
+    background: var(--color-done);
     box-shadow: inset 0 0 0 3px var(--color-sheet);
 }
 
@@ -217,6 +324,10 @@ html .toggle-all:focus-visible + label {
     padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
 }
 
+/*
+ * The checkbox box and tick are an SVG mask painted with a token color, so
+ * both themes share one shape and only the color changes.
+ */
 .todoapp .todo-list li .toggle {
     position: static;
     flex: none;
@@ -228,11 +339,19 @@ html .toggle-all:focus-visible + label {
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
-    background: no-repeat center / 28px 28px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='5' y='5' width='18' height='18' rx='2' fill='%23ffffff' stroke='%236b7a99' stroke-width='2'/%3E%3C/svg%3E");
+    background: var(--color-control);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='5' y='5' width='18' height='18' rx='3' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center / 28px 28px no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='5' y='5' width='18' height='18' rx='3' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center / 28px 28px no-repeat;
 }
 
 .todoapp .todo-list li .toggle:checked {
-    background: no-repeat center / 28px 28px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='5' y='5' width='18' height='18' rx='2' fill='%23ffffff' stroke='%232c4fa3' stroke-width='2'/%3E%3Cpath d='M8 14.5l4.2 4.6L24.5 5' fill='none' stroke='%232c4fa3' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background: var(--color-done);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='5' y='5' width='18' height='18' rx='3' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M8 14.5l4.2 4.6L24.5 5' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 28px 28px no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='5' y='5' width='18' height='18' rx='3' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M8 14.5l4.2 4.6L24.5 5' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 28px 28px no-repeat;
+}
+
+.todoapp .todo-list li .toggle:hover:not(:checked) {
+    background: var(--color-accent);
 }
 
 .todoapp .todo-list li .toggle + label,
@@ -249,6 +368,12 @@ html .toggle-all:focus-visible + label {
     overflow-wrap: anywhere;
 }
 
+/* No inherited color fade: switching theme must repaint every text at once. */
+.todoapp .todo-list li label,
+.todoapp .todo-list li .view .destroy {
+    transition: none;
+}
+
 .todoapp .todo-list li label {
     color: var(--color-ink);
 }
@@ -256,7 +381,7 @@ html .toggle-all:focus-visible + label {
 .todoapp .todo-list li.completed label {
     color: var(--color-muted);
     text-decoration: line-through;
-    text-decoration-color: var(--color-accent);
+    text-decoration-color: var(--color-done);
     text-decoration-thickness: 2px;
 }
 
@@ -319,8 +444,9 @@ html .toggle-all:focus-visible + label {
     padding: var(--space-2) var(--space-3);
     border: 2px solid var(--color-accent);
     border-radius: var(--radius);
-    background: #ffffff;
+    background: var(--color-field);
     box-shadow: none;
+    color: var(--color-ink);
     font-family: var(--font-write);
     font-size: 1.125rem;
     font-weight: 400;
@@ -347,7 +473,7 @@ html .toggle-all:focus-visible + label {
     padding: 0 var(--space-3);
     border: 1px solid var(--color-rule-strong);
     border-radius: var(--radius);
-    background: #ffffff;
+    background: var(--color-field);
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-ink);
@@ -362,6 +488,7 @@ html .toggle-all:focus-visible + label {
 .todoapp .pagination .page-btn[aria-current="page"] {
     border-color: var(--color-accent);
     background: var(--color-accent);
+    box-shadow: var(--glow);
     color: var(--color-on-accent);
 }
 
@@ -472,11 +599,19 @@ html .toggle-all:focus-visible + label {
     }
 
     .todoapp {
-        box-shadow: 4px 4px 0 #c3cde0;
+        box-shadow: var(--sheet-shadow-small);
     }
 
     .todoapp .header {
         padding: var(--space-4) var(--space-3);
+    }
+
+    /* The switch sits above the title instead of overlapping it. */
+    .todoapp .theme-toggle {
+        position: static;
+        display: flex;
+        width: fit-content;
+        margin: 0 0 var(--space-3) auto;
     }
 
     .todoapp .header h1 {
