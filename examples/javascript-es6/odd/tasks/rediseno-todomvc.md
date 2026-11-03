@@ -22,6 +22,7 @@ Strict TDD requested, but the project has no test runner. Checks are Playwright 
 - [x] T3 View (`src/view.js`) — delegated writer
 - [x] T4 Styles (`src/app.css`) — delegated writer
 - [x] T5 Verify — parent, Playwright MCP
+- [x] T6 Restyle with the frontend-design skill (`src/app.css` only) — inline, one file, no delegation trigger fired. Concept: ruled notebook sheet (serif system stack, ink-blue accent, red margin line, blue rules, offset sheet edge). Focus ring changed to amber `#b45309`. Selectors and markup untouched. Evidence: `evidencias/estilo2-*.png`; 1280x800 flow (add by button x9, complete, edit focus, Escape, pagination, toggle-all, filters, clear completed) and 375 px (scrollWidth 360 <= 375). Console: only the known 404s. `npm run build` compiled; `dist/` discarded. Not verified: contrast ratios by tool, screen reader.
 
 ## Evidence
 - Commit: `9595d208` feat(ui) — 4 files, 564 insertions, 28 deletions (above the ~400-line guide because `app.css` went from 20 lines to a full stylesheet).
