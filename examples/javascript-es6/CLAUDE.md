@@ -33,6 +33,10 @@ responsables) sin cambiar el framework ni el almacenamiento en memoria.
 - Tests e2e, desde la raíz `todomvc/` (ver `tests/README.md`):
   `npm run server` y luego `npx cypress run --env framework=javascript-es6`.
   Cypress prueba `dist/` (`cypress/e2e/spec.cy.js:45`): construir antes.
+- Despliegue: proyecto Vercel `taller-entre-todos`, conectado a `FvillaGit7/todomvc`.
+  Publica el `dist/` commiteado tal cual (raíz `examples/javascript-es6/dist`, sin build).
+  `npm run build` borra `dist/evidencias/`: restaurarlo con
+  `git checkout -- dist/evidencias` antes de commitear.
 
 ## Archivos relevantes [existente]
 - `src/index.html` – marcado estático (header, main, footer, filtros)
