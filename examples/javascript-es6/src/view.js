@@ -55,6 +55,18 @@ const _editItemDone = (id, title) => {
     });
 };
 
+/**
+ * Returns keyboard focus to a row's Edit button after Enter or Escape closed
+ * its edit field. Skipped when the row is gone (an empty title deletes it).
+ * @param {HTMLElement} row The list item that was being edited.
+ */
+const _focusEditButton = (row) => {
+    const button = row && row.isConnected ? qs(".edit-btn", row) : null;
+
+    if (button)
+        button.focus();
+};
+
 const _itemId = (element) => {
     const li = $parent(element, "li");
     return parseInt(li.dataset.id, 10);
@@ -133,6 +145,27 @@ export default class View {
     }
 
     /**
+     * Drops an entry and repaints. If the removed row held keyboard focus, focus
+     * moves to the Delete button of the row now at the same position, or to the
+     * new todo field when the list is empty, so it is never lost to the body.
+     * @param {number} id The todo id.
+     */
+    _removeItem(id) {
+        const hadFocus = this.$todoList.contains(document.activeElement);
+        const index = Array.from(qsa("li", this.$todoList)).findIndex((li) => parseInt(li.dataset.id, 10) === id);
+
+        this._entries = this._entries.filter((entry) => entry.id !== id);
+        this._renderPage();
+
+        if (!hadFocus)
+            return;
+
+        const rows = Array.from(qsa("li", this.$todoList));
+        const next = rows[Math.min(Math.max(index, 0), rows.length - 1)];
+        (next ? qs(".destroy", next) : this.$newTodo).focus();
+    }
+
+    /**
      * Finds a cached entry by id.
      * @param {number} id The todo id.
      * @returns {object|undefined} The cached entry, if any.
@@ -162,8 +195,7 @@ export default class View {
                 this._page = 0;
                 break;
             case "removeItem":
-                this._entries = this._entries.filter((entry) => entry.id !== parameter);
-                this._renderPage();
+                this._removeItem(parameter);
                 break;
             case "setFilter":
                 _setFilter(parameter);
@@ -205,10 +237,11 @@ export default class View {
                 $on(this.$clearCompleted, "click", handler);
                 break;
             case "toggleAll":
-                $on(this.$toggleAll, "click", () => {
-                    this.$toggleAllInput.click();
-                    handler({ completed: this.$toggleAllInput.checked });
-                });
+                // The label points at an id the input does not have, so a label click
+                // is forwarded to the input. The input reports through "change",
+                // which also covers Space on the focused input.
+                $on(this.$toggleAll, "click", () => this.$toggleAllInput.click());
+                $on(this.$toggleAllInput, "change", () => handler({ completed: this.$toggleAllInput.checked }));
                 break;
             case "itemEdit":
                 $delegate(this.$todoList, "li label", "dblclick", (e) => handler({ id: _itemId(e.target) }));
@@ -230,16 +263,21 @@ export default class View {
                     }
                 });
                 $delegate(this.$todoList, "li .edit", "keypress", function (e) {
-                    if (e.keyCode === ENTER_KEY)
+                    if (e.keyCode === ENTER_KEY) {
+                        const row = $parent(e.target, "li");
                         e.target.blur();
+                        _focusEditButton(row);
+                    }
                 });
                 break;
             case "itemEditCancel":
                 $delegate(this.$todoList, "li .edit", "keyup", (e) => {
                     if (e.keyCode === ESCAPE_KEY) {
+                        const row = $parent(e.target, "li");
                         e.target.dataset.iscanceled = true;
                         e.target.blur();
                         handler({ id: _itemId(e.target) });
+                        _focusEditButton(row);
                     }
                 });
                 break;

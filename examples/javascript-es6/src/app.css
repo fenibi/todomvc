@@ -23,6 +23,7 @@
     --color-accent-soft: #e8eefb;
     --color-on-accent: #ffffff;
     --color-done: #2c4fa3;
+    --toggle-tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M3.5 9.5l3.4 3.4L14.5 5' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     --color-margin: #c8483f;
     --color-danger: #a52f27;
     --color-danger-soft: #fbeceb;
@@ -71,6 +72,7 @@
     --color-accent-soft: rgba(34, 211, 238, 0.12);
     --color-on-accent: #04202a;
     --color-done: #4ade80;
+    --toggle-tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M3.5 9.5l3.4 3.4L14.5 5' fill='none' stroke='%2304202a' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     --color-margin: #8b5cf6;
     --color-danger: #fb923c;
     --color-danger-soft: rgba(251, 146, 60, 0.14);
@@ -325,33 +327,48 @@ html .toggle-all:focus-visible + label {
 }
 
 /*
- * The checkbox box and tick are an SVG mask painted with a token color, so
- * both themes share one shape and only the color changes.
+ * The checkbox is a 40px hit area around an 18px box. The box edge is an inset
+ * shadow and the tick a background image, so the element keeps a normal
+ * border box and its focus outline stays visible. The tick color comes from a
+ * per-theme token because a data URI cannot read CSS variables.
  */
 .todoapp .todo-list li .toggle {
     position: static;
     flex: none;
+    box-sizing: border-box;
     width: var(--control-size);
     height: var(--control-size);
     margin: 0 var(--space-2) 0 0;
-    border: 0;
+    border: 11px solid transparent;
+    border-radius: 14px;
     opacity: 1;
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
-    background: var(--color-control);
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='5' y='5' width='18' height='18' rx='3' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center / 28px 28px no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='5' y='5' width='18' height='18' rx='3' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center / 28px 28px no-repeat;
-}
-
-.todoapp .todo-list li .toggle:checked {
-    background: var(--color-done);
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='5' y='5' width='18' height='18' rx='3' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M8 14.5l4.2 4.6L24.5 5' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 28px 28px no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='5' y='5' width='18' height='18' rx='3' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M8 14.5l4.2 4.6L24.5 5' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 28px 28px no-repeat;
+    background: transparent center / 100% 100% no-repeat;
+    background-clip: padding-box;
+    box-shadow: inset 0 0 0 2px var(--color-control);
 }
 
 .todoapp .todo-list li .toggle:hover:not(:checked) {
-    background: var(--color-accent);
+    box-shadow: inset 0 0 0 2px var(--color-accent);
+}
+
+.todoapp .todo-list li .toggle:checked {
+    background-color: var(--color-done);
+    background-image: var(--toggle-tick);
+    box-shadow: inset 0 0 0 2px var(--color-done);
+}
+
+/* Forced colors drop custom paint: fall back to the native checkbox. */
+@media (forced-colors: active) {
+    .todoapp .todo-list li .toggle {
+        -webkit-appearance: auto;
+        appearance: auto;
+        border-width: 0;
+        box-shadow: none;
+        background: none;
+    }
 }
 
 .todoapp .todo-list li .toggle + label,
