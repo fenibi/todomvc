@@ -223,7 +223,8 @@ footer { font-size: 0.86rem; color: var(--muted); text-align: left; }
     <li><code>eb8dfea2</code>: commit vacío para probar el despliegue automático.</li>
     <li><code>413ef437</code>: la captura “antes” del TodoMVC original.</li>
     <li><code>5fa49aab</code>: las evidencias de la práctica en <code>examples/javascript-es6/evidencias/</code>. Son 13 archivos: plan, análisis, verificación, despliegue, el informe HTML y las capturas. No incluye el video duplicado, que ya está en <code>dist/evidencias/</code>.</li>
-    <li>Commits posteriores, desde <code>29dc61d2</code>: solo actualizan este informe dentro de <code>evidencias/</code>.</li>
+    <li><code>29dc61d2</code> y <code>c34a248f</code>: solo actualizan este informe dentro de <code>evidencias/</code>.</li>
+    <li><code>0f20ec60</code>: documenta en <code>CLAUDE.md</code> y <code>despliegue.md</code> que la PR va por <code>fenibi/todomvc</code> y el despliegue sale del fork.</li>
   </ul>
   <div class="scroll">
     <table>
@@ -268,9 +269,10 @@ footer { font-size: 0.86rem; color: var(--muted); text-align: left; }
     </div>
   </div>
   <p>El proyecto <code>taller-entre-todos</code>, de la cuenta personal <code>fvilla-7987</code>, está conectado al fork <code>FvillaGit7/todomvc</code>, con <code>feat/FvillaGit7-redisenio</code> como rama de producción. Publica el <code>dist/</code> commiteado sin paso de build, con raíz en <code>examples/javascript-es6/dist</code>. Por eso este informe no fija el ID de la publicación vigente: cambia con cada push, incluido el que sube este mismo informe.</p>
+  <p><strong>Remotos:</strong> la rama también está en el repositorio original <code>fenibi/todomvc</code> (remoto <code>origin</code>), donde está abierta la PR <a href="https://github.com/fenibi/todomvc/pull/2" target="_blank" rel="noopener">#2</a> contra <code>master</code>. Vercel no se pudo reconectar a ese repositorio: su app de GitHub solo ve la cuenta <code>FvillaGit7</code>, e instalarla en <code>fenibi</code> corresponde a su dueño. Por decisión del usuario, el fork queda solo para desplegar y cada push va a los dos remotos.</p>
   <p>Desde el rediseño, ningún commit cambió <code>dist/</code>, así que la app publicada es la misma que la de la versión grabada. Se comprobó así:</p>
   <ul>
-    <li><strong>Despliegue automático:</strong> el push de prueba <code>eb8dfea2</code> y los pushes de <code>413ef437</code>, <code>5fa49aab</code> y <code>29dc61d2</code> generaron cada uno un despliegue en producción en segundos. El dominio pasó solo, sin promote manual.</li>
+    <li><strong>Despliegue automático:</strong> el push de prueba <code>eb8dfea2</code> y los pushes de <code>413ef437</code>, <code>5fa49aab</code>, <code>29dc61d2</code>, <code>c34a248f</code> y <code>0f20ec60</code> generaron cada uno un despliegue en producción en segundos. El dominio pasó solo, sin promote manual.</li>
     <li><strong>Archivos:</strong> en cada uno de esos pushes, los MD5 de <code>index.html</code>, <code>app.bundle.js</code>, <code>app.css</code>, <code>base.js</code> y <code>evidencias/recorrido.webm</code> en la URL pública coincidieron con los del commit. La raíz del repositorio no queda expuesta.</li>
     <li><strong>Prueba con Playwright en la web publicada:</strong> crear tareas, completar una a nombre de Ana y filtrar dieron el resultado esperado, sin errores de JavaScript.</li>
   </ul>
@@ -319,6 +321,7 @@ footer { font-size: 0.86rem; color: var(--muted); text-align: left; }
         <tr><td>Vercel</td><td><code>get_project</code>, <code>create_deployment</code></td><td>Redesplegar desde la rama del fork</td><td><code>dpl_8ikGwpAhNGuuh8b1mCPvfNaucL7V</code>, en estado READY y en producción, con commit <code>929f8d43</code></td></tr>
         <tr><td>Vercel</td><td><code>list_projects</code> (filtro <code>repoUrl</code>)</td><td>Verificar la conexión con el fork</td><td>Conectado a <code>FvillaGit7/todomvc</code>; el control con <code>fenibi/todomvc</code> no devuelve proyectos</td></tr>
         <tr><td>Vercel</td><td><code>request_rollback</code>, <code>update_project</code>, <code>create_deployment</code>, <code>request_promote</code></td><td>Resolver el incidente de la raíz reiniciada</td><td>Producción en <code>dpl_LpVcohzDGZJ7psV88xZNN4jWhjpg</code> (<code>af8ac036</code>), verificado</td></tr>
+        <tr><td>Vercel</td><td><code>git_namespaces</code>, <code>search_repo</code></td><td>Ver si Vercel puede conectarse a <code>fenibi/todomvc</code></td><td>Solo ve la cuenta <code>FvillaGit7</code> y el repo <code>FvillaGit7/todomvc</code>; no se puede reconectar</td></tr>
         <tr><td>Vercel</td><td><code>list_deployments</code>, <code>list_deployment_events</code>, <code>get_deployment</code></td><td>Seguir el push de prueba <code>eb8dfea2</code></td><td>Despliegue automático en producción (<code>dpl_9sd8…</code>, build de 49 ms); el dominio se asignó solo</td></tr>
       </tbody>
     </table>
@@ -335,16 +338,18 @@ footer { font-size: 0.86rem; color: var(--muted); text-align: left; }
   <h2 id="h-pend">Pendientes</h2>
   <ul>
     <li><span class="tag pend">Build local</span> <code>npm run build</code> vacía <code>dist/</code> (<code>clean: true</code>) y borra <code>dist/evidencias/recorrido.webm</code>, que el build no regenera. Como Vercel publica el <code>dist/</code> commiteado, después de cada build hay que restaurar el video con <code>git checkout -- examples/javascript-es6/dist/evidencias</code> antes de commitear. Si no, el próximo despliegue sale sin video.</li>
+    <li><span class="tag pend">Vercel en el fork</span> Mientras la app de Vercel no esté instalada en <code>fenibi</code>, hay que hacer push a <code>origin</code> y a <code>fork</code>; si se olvida el segundo, producción no se actualiza.</li>
     <li><span class="tag pend">Cypress</span> No se ejecutó, por indicación del usuario.</li>
     <li><span class="tag pend">Cobertura</span> Solo se probó en Chromium. Faltan Firefox, Safari, un teléfono real y un lector de pantalla.</li>
     <li><span class="tag pend">Video</span> En el tramo móvil, la página de 375 px ocupa la izquierda del cuadro de 1280 × 800 y el resto queda gris. Se comprobó que el video se decodifica con ffmpeg, pero no se abrió en un reproductor.</li>
   </ul>
-  <p style="font-size:0.92rem"><span class="tag ok">Resuelto</span> <strong>Push:</strong> el envío a <code>fenibi/todomvc</code> había sido rechazado con error 403. La rama se subió al fork <code>FvillaGit7/todomvc</code>, y <code>git ls-remote</code> confirma que la rama remota apunta a <code>929f8d43</code>.</p>
+  <p style="font-size:0.92rem"><span class="tag ok">Resuelto</span> <strong>Push:</strong> el envío a <code>fenibi/todomvc</code> había sido rechazado con error 403, y la rama se subió al fork <code>FvillaGit7/todomvc</code>. Con el acceso ya concedido, la rama también se subió a <code>fenibi/todomvc</code>; <code>git ls-remote</code> confirma que los dos remotos apuntan a <code>0f20ec60</code>.</p>
+  <p style="font-size:0.92rem"><span class="tag ok">Resuelto</span> <strong>PR:</strong> abierta con GitHub CLI (<code>gh pr create</code>) como <a href="https://github.com/fenibi/todomvc/pull/2" target="_blank" rel="noopener">fenibi/todomvc#2</a>, <code>feat/FvillaGit7-redisenio</code> → <code>master</code>. Al crearla estaba abierta y sin conflictos, con 8 commits y 30 archivos (+2175/−121), y la cabeza en <code>0f20ec60</code>.</p>
   <p style="font-size:0.92rem"><span class="tag ok">Resuelto</span> <strong>Captura “antes”:</strong> la imagen anterior mostraba una página de dominio de ejemplo. Se volvió a capturar con el TodoMVC original: el <code>dist/</code> del commit <code>ff43b02</code>, a 1280 × 800 y en el mismo estado que el “después”.</p>
   <p style="font-size:0.92rem"><span class="tag ok">Resuelto</span> <strong>Commit en Vercel:</strong> producción mostraba el commit viejo <code>ff43b02</code>. Ahora sirve <code>af8ac036</code> desde la rama del fork.</p>
   <p style="font-size:0.92rem"><span class="tag ok">Resuelto</span> <strong>Despliegue automático:</strong> el proyecto está conectado a <code>FvillaGit7/todomvc</code>, con <code>feat/FvillaGit7-redisenio</code> como rama de producción. El push de prueba <code>eb8dfea2</code> se publicó solo en producción a los 6 segundos, sin promote manual, y se verificó con MD5 y Playwright.</p>
 </section>
 
-<footer>Fuentes: <code>evidencias/plan.md</code>, <code>analisis.md</code>, <code>verificacion.md</code> y <code>despliegue.md</code>, los commits de la rama <code>feat/FvillaGit7-redisenio</code> desde <code>929f8d43</code>, las capturas de <code>evidencias/</code> y consultas a Vercel MCP del 3 de noviembre de 2026. No incluye claves, tokens, logs privados ni conversaciones.</footer>
+<footer>Fuentes: <code>evidencias/plan.md</code>, <code>analisis.md</code>, <code>verificacion.md</code> y <code>despliegue.md</code>, los commits de la rama <code>feat/FvillaGit7-redisenio</code> desde <code>929f8d43</code>, las capturas de <code>evidencias/</code> y consultas a Vercel MCP del 3 al 6 de noviembre de 2026. No incluye claves, tokens, logs privados ni conversaciones.</footer>
 
 </main>
