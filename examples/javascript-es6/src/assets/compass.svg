@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="280" viewBox="0 0 260 280">
+    <defs>
+        <radialGradient id="brass" cx="35%" cy="30%" r="80%">
+            <stop offset="0" stop-color="#F2D58A"/>
+            <stop offset="0.4" stop-color="#C49A46"/>
+            <stop offset="1" stop-color="#4A3614"/>
+        </radialGradient>
+        <radialGradient id="face" cx="45%" cy="40%" r="70%">
+            <stop offset="0" stop-color="#F5E6C8"/>
+            <stop offset="1" stop-color="#C9AE7C"/>
+        </radialGradient>
+        <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.35"/>
+            <stop offset="0.4" stop-color="#FFFFFF" stop-opacity="0"/>
+        </linearGradient>
+    </defs>
+    <circle cx="130" cy="14" r="13" fill="none" stroke="url(#brass)" stroke-width="7"/>
+    <rect x="120" y="22" width="20" height="18" rx="4" fill="url(#brass)" stroke="#4A3614" stroke-width="1.5"/>
+    <circle cx="130" cy="154" r="122" fill="#1A120B" opacity="0.5"/>
+    <circle cx="130" cy="150" r="120" fill="url(#brass)" stroke="#3A2A10" stroke-width="2"/>
+    <circle cx="130" cy="150" r="104" fill="#5C451C" stroke="#E9C97E" stroke-opacity="0.6" stroke-width="2"/>
+    <circle cx="130" cy="150" r="96" fill="url(#face)"/>
+    <circle cx="130" cy="150" r="88" fill="none" stroke="#493222" stroke-width="10" stroke-dasharray="1.2 14.2"/>
+    <circle cx="130" cy="150" r="80" fill="none" stroke="#493222" stroke-width="1.2"/>
+    <g fill="#493222">
+        <path d="M130 70 L140 140 L130 150 L120 140 Z"/>
+        <path d="M130 230 L120 160 L130 150 L140 160 Z"/>
+        <path d="M50 150 L120 140 L130 150 L120 160 Z"/>
+        <path d="M210 150 L140 160 L130 150 L140 140 Z"/>
+    </g>
+    <g fill="#8A6A3E">
+        <path d="M130 70 L130 150 L120 140 Z"/><path d="M130 230 L130 150 L140 160 Z"/>
+        <path d="M50 150 L130 150 L120 160 Z"/><path d="M210 150 L130 150 L140 140 Z"/>
+        <path d="M74 94 L126 146 L134 140 Z"/><path d="M186 94 L134 146 L140 154 Z"/>
+        <path d="M74 206 L126 154 L120 146 Z"/><path d="M186 206 L134 154 L126 160 Z"/>
+    </g>
+    <g transform="rotate(-24 130 150)">
+        <path d="M130 78 L138 150 L122 150 Z" fill="#813F32" stroke="#3A1A12" stroke-width="1"/>
+        <path d="M130 222 L122 150 L138 150 Z" fill="#2C2118"/>
+    </g>
+    <circle cx="130" cy="150" r="8" fill="url(#brass)" stroke="#3A2A10" stroke-width="1.5"/>
+    <circle cx="130" cy="150" r="96" fill="url(#glass)"/>
+</svg>

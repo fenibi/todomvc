@@ -1,20 +1,856 @@
-.toggle-graph {
-    float: left;
-    margin-left: 16px;
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-}
-.toggle-graph svg {
-    height: 20px;
-    width: 20px;
-}
-.toggle-graph svg path {
-    fill: #777;
+/*
+ * QuestLog — an adventurer's journal open on a wooden desk.
+ * Overrides todomvc-app-css (loaded before this file). Selectors used by
+ * view.js and the tests are only restyled, never renamed.
+ *
+ * Artwork lives in ./assets: the book, strips, wood and paper are generated
+ * SVG; dragon.png and castle.png are ink drawings taken from the reference.
+ */
+
+:root {
+    --parchment: #E8D5AC;
+    --parchment-light: #F5E6C8;
+    --leather: #2C2118;
+    --ink: #493222;
+    --ink-deep: #3B2718;
+    --ink-soft: #6B5136;
+    --gold: #C49A46;
+    --wax: #813F32;
+    --wood: #2F2217;
+
+    --font-display: "Cinzel", "Trajan Pro", Georgia, serif;
+    --font-text: "Lora", Georgia, "Times New Roman", serif;
+
+    --book-w: min(1360px, 100%);
+    --book-h: clamp(640px, calc(100vh - 40px), 900px);
 }
 
-.toggle-graph.active svg path,
-.toggle-graph:hover svg path,
-.toggle-graph:focus svg path {
-    fill: black;
+/* ---------- Desk ---------- */
+
+html {
+    background: var(--wood);
+}
+
+body {
+    display: flow-root;
+    position: relative;
+    min-width: 0;
+    max-width: none;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0 16px;
+    box-sizing: border-box;
+    font-family: var(--font-text);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--parchment);
+    background:
+        radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(8, 5, 2, 0.6) 100%),
+        url("./assets/wood.svg") center top / cover,
+        var(--wood);
+}
+
+/* ---------- Book (desktop: open spread) ---------- */
+
+.todoapp {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 38fr 9.5fr 39.5fr;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    width: var(--book-w);
+    height: var(--book-h);
+    margin: 20px auto 28px;
+    padding: calc(var(--book-h) * 0.13) 6% calc(var(--book-h) * 0.125) 7%;
+    box-sizing: border-box;
+    color: var(--ink);
+    background: url("./assets/book.svg") center / 100% 100% no-repeat;
+    border-radius: 20px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Header children become cells of the book grid, so the brand can live on
+   the left page and the new-quest field on the right one. */
+.header {
+    display: contents;
+}
+
+/* Leather bookmark hanging over the left page */
+.todoapp::before {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 7.5%;
+    width: 64px;
+    height: 162px;
+    background: url("./assets/bookmark.svg") top center / contain no-repeat;
+    filter: drop-shadow(2px 4px 3px rgba(20, 12, 6, 0.45));
+    pointer-events: none;
+}
+
+/* ---------- Left page: identity ---------- */
+
+.brand {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    align-self: start;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(40px, 4.4vw, 74px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-align: center;
+    color: var(--ink-deep);
+    text-shadow: 0 1px 0 rgba(245, 230, 200, 0.6);
+}
+
+.brand::before {
+    content: "";
+    display: block;
+    width: 58%;
+    height: calc(var(--book-h) * 0.17);
+    margin: 0 auto 8px;
+    background: url("./assets/dragon.png") center bottom / contain no-repeat;
+}
+
+.brand::after {
+    content: "";
+    display: block;
+    height: 26px;
+    margin-top: 12px;
+    background: url("./assets/divider.svg") center / auto 26px no-repeat;
+}
+
+.tagline {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    align-self: end;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: var(--ink);
+}
+
+.tagline::after {
+    content: "";
+    display: block;
+    height: calc(var(--book-h) * 0.36);
+    margin-top: 8px;
+    background:
+        url("./assets/divider.svg") top center / 200px 24px no-repeat,
+        url("./assets/castle.png") center bottom / auto calc(100% - 36px) no-repeat;
+}
+
+/* ---------- Right page: banner and new quest ---------- */
+
+.todoapp h1 {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: center;
+    position: static;
+    top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(100%, 320px);
+    height: 66px;
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    box-sizing: border-box;
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    color: var(--parchment-light);
+    text-shadow: 0 1px 1px #000;
+    background: url("./assets/banner.svg") center / 100% 100% no-repeat;
+    filter: drop-shadow(0 4px 4px rgba(20, 12, 6, 0.45));
+}
+
+.todoapp .new-todo {
+    grid-column: 3;
+    grid-row: 2;
+    height: 60px;
+    margin: 0 0 10px;
+    padding: 0 20px 0 56px;
+    font-family: var(--font-text);
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--ink-deep);
+    background:
+        url("./assets/plus.svg") 22px center / 22px 22px no-repeat,
+        url("./assets/field.svg") center / 100% 100% no-repeat;
+    border: none;
+    box-shadow: none;
+    filter: drop-shadow(0 3px 3px rgba(44, 33, 24, 0.3));
+}
+
+.todoapp .new-todo::placeholder {
+    font-style: italic;
+    color: var(--ink-soft);
+    opacity: 1;
+}
+
+/* ---------- Right page: quest list ---------- */
+
+.main {
+    grid-column: 3;
+    grid-row: 3;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 2px 6px 10px 2px;
+    border-top: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(73, 50, 34, 0.55) transparent;
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent);
+}
+
+.toggle-all + label {
+    position: static;
+    top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    width: auto;
+    height: auto;
+    padding: 0 8px 10px;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--ink);
+    cursor: pointer;
+}
+
+.toggle-all + label::before {
+    content: "";
+    flex: none;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: url("./assets/checkbox.svg") center / contain no-repeat;
+    transform: none;
+}
+
+.toggle-all:checked + label::before {
+    background-image: url("./assets/checkbox-checked.svg");
+}
+
+.toggle-all + label:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--wax);
+}
+
+/* Each quest is its own parchment strip (9-slice border-image) */
+.todo-list li {
+    margin: 0 0 10px;
+    font-size: 19px;
+    border: 0 solid transparent;
+    border-image: url("./assets/strip.svg") 14 26 fill / 12px 22px stretch;
+    filter: drop-shadow(0 3px 2.5px rgba(44, 33, 24, 0.35));
+}
+
+.todo-list li:last-child {
+    margin-bottom: 4px;
+}
+
+.todo-list li.completed {
+    border-image-source: url("./assets/strip-done.svg");
+}
+
+/* Pennant tab: full for open quests, faded once completed */
+.todo-list li::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    right: 18px;
+    width: 24px;
+    height: 40px;
+    background: url("./assets/pennant.svg") center / contain no-repeat;
+    pointer-events: none;
+}
+
+.todo-list li.completed::after {
+    opacity: 0.4;
+}
+
+.todo-list li.editing::after {
+    display: none;
+}
+
+.todo-list li label {
+    padding: 17px 88px 17px 62px;
+    font-family: var(--font-text);
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--ink-deep);
+    word-break: normal;
+    overflow-wrap: anywhere;
+}
+
+.todo-list li.completed label {
+    color: var(--ink-soft);
+    text-decoration: line-through;
+    text-decoration-color: var(--ink);
+    text-decoration-thickness: 2px;
+}
+
+/* The real checkbox sits above the drawn one so clicks reach it */
+.todo-list li .toggle {
+    z-index: 1;
+    left: 8px;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+}
+
+.todo-list li .toggle + label,
+.todo-list li .toggle:checked + label {
+    background-image: none;
+}
+
+.todo-list li .toggle + label::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    width: 32px;
+    height: 32px;
+    margin-top: -16px;
+    background: url("./assets/checkbox.svg") center / contain no-repeat;
+}
+
+.todo-list li .toggle:checked + label::before {
+    background-image: url("./assets/checkbox-checked.svg");
+}
+
+/* Delete stays focusable (opacity instead of display: none) */
+.todo-list li .destroy {
+    display: block;
+    right: 48px;
+    width: 34px;
+    height: 34px;
+    font-size: 26px;
+    color: var(--ink);
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.15s ease-out, color 0.15s ease-out;
+}
+
+.todo-list li:hover .destroy,
+.todo-list li:focus-within .destroy {
+    opacity: 1;
+}
+
+.todo-list li .destroy:hover,
+.todo-list li .destroy:focus {
+    color: var(--wax);
+}
+
+@media (hover: none) {
+    .todo-list li .destroy {
+        opacity: 1;
+    }
+}
+
+.todo-list li.editing .edit {
+    width: calc(100% - 68px);
+    margin: 8px 12px 8px 56px;
+    padding: 10px 14px;
+    font-family: var(--font-text);
+    font-size: 19px;
+    color: var(--ink-deep);
+    background: rgba(247, 236, 211, 0.9);
+    border: 1px solid var(--ink);
+    border-radius: 3px;
+    box-shadow: inset 0 1px 3px rgba(73, 50, 34, 0.2);
+}
+
+/* Empty journal: an invitation instead of a blank page */
+.todoapp:has(> .main[style*="none"])::after {
+    content: "No quests yet. Write your first one above.";
+    grid-column: 3;
+    grid-row: 3;
+    align-self: center;
+    justify-self: center;
+    max-width: 260px;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: center;
+    color: var(--ink-deep);
+}
+
+/* ---------- Right page: footer bar ---------- */
+
+.footer {
+    grid-column: 3;
+    grid-row: 4;
+    position: relative;
+    height: auto;
+    padding: 0;
+    font-size: 15px;
+    text-align: center;
+    color: var(--ink);
+    border-top: none;
+}
+
+.footer::before,
+.footer::after {
+    content: "";
+    position: static;
+    display: block;
+    height: 22px;
+    background:
+        url("./assets/divider.svg") center / auto 22px no-repeat,
+        linear-gradient(rgba(90, 62, 40, 0.7), rgba(90, 62, 40, 0.7)) center / 100% 1.4px no-repeat;
+    box-shadow: none;
+}
+
+.footer::before {
+    margin-bottom: 4px;
+}
+
+.footer::after {
+    margin-top: 4px;
+}
+
+.footer-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+}
+
+.todo-count {
+    float: none;
+    max-width: 56px;
+    padding: 0 8px 0 0;
+    font-size: 14px;
+    line-height: 1.25;
+    text-align: center;
+    border-right: 1px solid rgba(73, 50, 34, 0.35);
+}
+
+.todo-count strong {
+    font-weight: 600;
+}
+
+.filters {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    padding: 0 6px;
+}
+
+.filters li {
+    display: block;
+}
+
+.filters li a {
+    display: inline-block;
+    margin: 0;
+    padding: 5px 10px;
+    font-size: 15px;
+    line-height: 1.3;
+    color: var(--ink-deep);
+    background: linear-gradient(#F6E9CC, #E1CA9C);
+    border: 1px solid rgba(73, 50, 34, 0.55);
+    border-radius: 999px;
+    box-shadow: 0 2px 3px rgba(44, 33, 24, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.filters li a:hover {
+    border-color: var(--ink-deep);
+    background: linear-gradient(#FBF1DA, #E8D5AC);
+}
+
+.filters li a.selected {
+    font-weight: 600;
+    color: var(--parchment-light);
+    background: radial-gradient(ellipse at 50% 30%, #6A4A36, #3A2A1F 70%, #24180F);
+    border-color: #120C07;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.clear-completed,
+html .clear-completed:active {
+    float: none;
+    max-width: 84px;
+    padding: 2px 0 2px 8px;
+    font-size: 14px;
+    line-height: 1.25;
+    text-align: center;
+    color: var(--ink-deep);
+    border-left: 1px solid rgba(73, 50, 34, 0.35);
+}
+
+.clear-completed:hover {
+    color: var(--wax);
+    text-decoration: underline;
+}
+
+/* ---------- Notes under the book ---------- */
+
+.info {
+    position: relative;
+    z-index: 1;
+    max-width: 940px;
+    margin: 0 auto 32px;
+    font-size: 13px;
+    color: var(--parchment);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.info p {
+    margin: 6px 0;
+    line-height: 1.5;
+}
+
+.info a {
+    font-weight: 600;
+    color: var(--gold);
+}
+
+/* ---------- Focus ---------- */
+
+:focus,
+.toggle:focus + label,
+.toggle-all:focus + label {
+    box-shadow: none;
+}
+
+:focus-visible {
+    outline: 3px solid var(--wax);
+    outline-offset: 3px;
+}
+
+.todo-list li .toggle:focus-visible,
+.toggle-all:focus-visible {
+    outline: none;
+}
+
+.todo-list li .toggle:focus-visible + label::before,
+.toggle-all:focus-visible + label::before {
+    outline: 3px solid var(--wax);
+    outline-offset: 1px;
+    border-radius: 4px;
+}
+
+.info :focus-visible {
+    outline-color: var(--gold);
+}
+
+/* ---------- Desk objects and oil lamp (decorative, large screens) ---------- */
+
+.desk-scene {
+    display: none;
+}
+
+@media (min-width: 1280px) {
+    :root {
+        --book-w: min(1360px, 100vw - 240px);
+    }
+
+    /* The scene covers the book area (book + its vertical margins), not the
+       viewport, so props scroll with the book and are never cut by it.
+       --gutter is the free desk on each side of the book; every prop is sized
+       and placed from it so it stays whole inside the scene. overflow only
+       guards against horizontal scroll (and trims the lamp glow). */
+    .desk-scene {
+        --gutter: calc((100% - var(--book-w)) / 2);
+        display: block;
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: calc(var(--book-h) + 48px);
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .prop {
+        position: absolute;
+        display: block;
+        background: center / contain no-repeat;
+        filter: drop-shadow(4px 10px 8px rgba(0, 0, 0, 0.55));
+    }
+
+    .prop-coin {
+        background-image: url("./assets/coin.svg");
+    }
+
+    .prop-coin-a {
+        top: 30%;
+        left: max(8px, calc(var(--gutter) - 86px));
+        width: 72px;
+        height: 72px;
+        transform: rotate(-12deg);
+    }
+
+    .prop-coin-b {
+        top: 14px;
+        right: calc(var(--gutter) + 150px);
+        width: 60px;
+        height: 60px;
+        transform: rotate(20deg);
+    }
+
+    .prop-quill {
+        bottom: 24px;
+        left: max(52px, calc(var(--gutter) - 70px));
+        width: 84px;
+        height: 280px;
+        background-image: url("./assets/quill.svg");
+        transform: rotate(-10deg);
+        transform-origin: bottom center;
+    }
+
+    .prop-crystals {
+        top: 42%;
+        right: max(6px, calc(var(--gutter) - 100px));
+        width: 110px;
+        height: 150px;
+        background-image: url("./assets/crystals.svg");
+    }
+
+    .prop-compass {
+        bottom: 26px;
+        right: max(24px, calc(var(--gutter) - 150px));
+        width: clamp(120px, calc(var(--gutter) + 10px), 170px);
+        aspect-ratio: 260 / 280;
+        background-image: url("./assets/compass.svg");
+        transform: rotate(-14deg);
+    }
+
+    .desk-lamp {
+        position: absolute;
+        top: 6px;
+        right: max(4px, calc(var(--gutter) - 130px));
+        width: 140px;
+        height: 260px;
+    }
+
+    .desk-lamp span {
+        position: absolute;
+        display: block;
+    }
+
+    .lamp-body,
+    .lamp-chimney {
+        inset: 0;
+        background: center / contain no-repeat;
+    }
+
+    .lamp-body {
+        z-index: 1;
+        background-image: url("./assets/lamp-body.svg");
+        filter: drop-shadow(4px 10px 8px rgba(0, 0, 0, 0.55));
+    }
+
+    .lamp-chimney {
+        z-index: 3;
+        background-image: url("./assets/lamp-glass.svg");
+    }
+
+    .lamp-flame {
+        z-index: 2;
+        left: 60px;
+        bottom: 128px;
+        width: 20px;
+        height: 46px;
+        border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+        background: radial-gradient(ellipse at 50% 78%, #FFF6D6 0, #FFD27A 28%, #F59F3A 58%, rgba(200, 80, 30, 0) 76%);
+        transform-origin: 50% 100%;
+        animation: lamp-flicker 2.6s ease-in-out infinite;
+    }
+
+    /* Warm light that falls on the desk and the corner of the book */
+    .lamp-glow {
+        z-index: 0;
+        left: -230px;
+        top: -190px;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 196, 110, 0.5) 0, rgba(255, 170, 80, 0.18) 32%, transparent 62%);
+        mix-blend-mode: screen;
+        animation: lamp-glow 3.7s ease-in-out infinite;
+    }
+}
+
+@keyframes lamp-flicker {
+    0%, 100% { transform: scale(1, 1) rotate(-1deg); }
+    20% { transform: scale(0.96, 1.05) rotate(1.5deg); }
+    40% { transform: scale(1.03, 0.95) rotate(-0.5deg); }
+    60% { transform: scale(0.98, 1.08) rotate(1deg); }
+    80% { transform: scale(1.02, 0.97) rotate(-1.5deg); }
+}
+
+@keyframes lamp-glow {
+    0%, 100% { opacity: 0.85; }
+    30% { opacity: 1; }
+    55% { opacity: 0.75; }
+    80% { opacity: 0.95; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lamp-flame,
+    .lamp-glow {
+        animation: none;
+    }
+
+    .todo-list li .destroy {
+        transition: none;
+    }
+}
+
+/* ---------- Single parchment page below 1024px ---------- */
+
+@media (max-width: 1023px) {
+    .todoapp {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: none;
+        width: auto;
+        max-width: 640px;
+        height: auto;
+        margin: 16px auto 24px;
+        padding: 40px 26px 34px;
+        background: url("./assets/paper.svg") 0 0 / 360px 360px repeat, var(--parchment);
+        border: 0 solid transparent;
+        border-image: url("./assets/page-frame.svg") 32 / 22px stretch;
+        border-radius: 14px;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .todoapp::before {
+        left: 22px;
+        width: 40px;
+        height: 100px;
+    }
+
+    .brand,
+    .tagline,
+    .todoapp h1,
+    .todoapp .new-todo,
+    .main,
+    .footer {
+        grid-column: 1;
+        align-self: auto;
+    }
+
+    .brand {
+        grid-row: 1;
+        font-size: clamp(38px, 11vw, 60px);
+    }
+
+    .brand::before {
+        width: 44%;
+        height: 104px;
+    }
+
+    .tagline {
+        grid-row: 2;
+        margin-top: 4px;
+        font-size: 15px;
+    }
+
+    .tagline::after {
+        display: none;
+    }
+
+    .todoapp h1 {
+        grid-row: 3;
+        width: min(100%, 280px);
+        height: 66px;
+        margin: 22px auto 12px;
+        font-size: 26px;
+    }
+
+    .todoapp .new-todo {
+        grid-row: 4;
+        padding-left: 50px;
+        font-size: 18px;
+        background-position: 18px center, center;
+    }
+
+    .main {
+        grid-row: 5;
+        overflow: visible;
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+
+    .footer {
+        grid-row: 6;
+    }
+
+    .todoapp:has(> .main[style*="none"])::after {
+        grid-column: 1;
+        grid-row: 5;
+        padding: 8px 0 12px;
+    }
+
+    .todo-list li {
+        font-size: 18px;
+    }
+
+    .todo-list li label {
+        padding-right: 80px;
+    }
+}
+
+@media (max-width: 560px) {
+    .footer-inner {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "count clear"
+            "filters filters";
+        row-gap: 12px;
+    }
+
+    .todo-count {
+        grid-area: count;
+        max-width: none;
+        padding: 0;
+        text-align: left;
+        border-right: none;
+    }
+
+    .clear-completed,
+    html .clear-completed:active {
+        grid-area: clear;
+        max-width: none;
+        border-left: none;
+    }
+
+    .filters {
+        grid-area: filters;
+        padding: 0;
+    }
+
+    .filters li a {
+        padding: 6px 14px;
+    }
+
+    .todo-list li label {
+        padding: 15px 72px 15px 56px;
+    }
+
+    .todo-list li::after {
+        right: 12px;
+    }
+
+    .todo-list li .destroy {
+        right: 40px;
+    }
 }

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="430" viewBox="0 0 120 430">
+    <defs>
+        <linearGradient id="vl" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#2B2622"/>
+            <stop offset="0.7" stop-color="#5E554C"/>
+            <stop offset="1" stop-color="#8A7F72"/>
+        </linearGradient>
+        <linearGradient id="vr" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#8A7F72"/>
+            <stop offset="0.35" stop-color="#4E463F"/>
+            <stop offset="1" stop-color="#211D1A"/>
+        </linearGradient>
+        <linearGradient id="nib" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#D9C9A3"/>
+            <stop offset="1" stop-color="#6E5233"/>
+        </linearGradient>
+    </defs>
+    <path d="M60 22 C34 60 16 120 18 200 C19 260 30 310 46 352 L60 360 Z" fill="url(#vl)"/>
+    <path d="M60 10 C88 52 106 120 104 196 C102 262 90 314 74 352 L60 360 Z" fill="url(#vr)"/>
+    <path d="M18 200 C10 214 14 226 24 230 M20 150 C12 160 14 170 22 172 M104 196 C112 210 108 222 98 226 M100 140 C108 150 106 162 98 164" fill="none" stroke="#2B2622" stroke-width="3" stroke-linecap="round"/>
+    <g fill="none" stroke="#C9BFB2" stroke-opacity="0.18" stroke-width="1.2">
+        <path d="M58 60 L30 110"/><path d="M58 90 L24 146"/><path d="M58 120 L20 182"/><path d="M58 150 L20 216"/>
+        <path d="M58 180 L24 250"/><path d="M58 210 L30 282"/><path d="M58 240 L38 312"/><path d="M58 270 L46 336"/>
+        <path d="M62 50 L92 96"/><path d="M62 80 L100 134"/><path d="M62 110 L104 172"/><path d="M62 140 L104 206"/>
+        <path d="M62 170 L102 240"/><path d="M62 200 L96 274"/><path d="M62 230 L88 306"/><path d="M62 260 L80 332"/>
+    </g>
+    <path d="M60 8 C61 120 61 250 60 360" fill="none" stroke="#E6DCCB" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M56 356 L64 356 L63 404 L60 426 L57 404 Z" fill="url(#nib)" stroke="#4A3622" stroke-width="1"/>
+    <path d="M58.6 408 L60 426 L61.4 408 Z" fill="#1A120B"/>
+</svg>

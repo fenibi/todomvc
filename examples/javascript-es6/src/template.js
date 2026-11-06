@@ -18,9 +18,9 @@ const escapeHtmlChar = (chr) => htmlEscapes[chr];
 const createTodoItem = ({ id, title, completed, checked, index }) => `
 <li data-id="${id}" class="${completed}">
     <div class="view">
-        <input class="toggle" type="checkbox" ${checked}>
-        <label>${title}</label>
-        <button class="destroy"></button>
+        <input class="toggle" type="checkbox" ${checked} id="todo-toggle-${id}" aria-label="Complete quest:" aria-labelledby="todo-toggle-${id} todo-title-${id}">
+        <label id="todo-title-${id}">${title}</label>
+        <button class="destroy" id="todo-destroy-${id}" aria-label="Delete quest:" aria-labelledby="todo-destroy-${id} todo-title-${id}"></button>
     </div>
 </li>
 `;
