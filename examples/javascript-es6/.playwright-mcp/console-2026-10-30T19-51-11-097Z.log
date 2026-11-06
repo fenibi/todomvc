@@ -1,4 +1,0 @@
-[      50ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
-[      93ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2788
-[      94ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4042
-[     132ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/favicon.ico:0
