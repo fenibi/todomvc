@@ -1,21 +1,39 @@
+const _sameName = (a, b) => a.localeCompare(b, "es", { sensitivity: "base" }) === 0;
+
+/**
+ * ¿Hay otro integrante con ese nombre? (sin distinguir mayúsculas ni tildes)
+ */
+const _nameTaken = (members, name, exceptId) => members.some((member) => member.id !== exceptId && _sameName(member.name, name));
+
 class Controller {
     /**
      * Take a model & view, then act as controller between them
-     * @param  {object} model The model instance
-     * @param  {object} view  The view instance
+     * @param  {object} model   The model instance
+     * @param  {object} view    The view instance
+     * @param  {object} members The members instance
      */
-    constructor(model, view) {
+    constructor(model, view, members) {
         this.model = model;
         this.view = view;
+        this.members = members;
+        this._pendingCompletion = null;
 
-        this.view.bindCallback("newTodo", (title) => this.addItem(title));
+        this.view.bindCallback("newTodo", (item) => this.addItem(item.title, item.assignee));
         this.view.bindCallback("itemEdit", (item) => this.editItem(item.id));
         this.view.bindCallback("itemEditDone", (item) => this.editItemSave(item.id, item.title));
         this.view.bindCallback("itemEditCancel", (item) => this.editItemCancel(item.id));
         this.view.bindCallback("itemRemove", (item) => this.removeItem(item.id));
         this.view.bindCallback("itemToggle", (item) => this.toggleComplete(item.id, item.completed));
+        this.view.bindCallback("itemCompletedBy", (item) => this.setCompletedBy(item.id, item.memberId));
         this.view.bindCallback("removeCompleted", () => this.removeCompletedItems());
         this.view.bindCallback("toggleAll", (status) => this.toggleAll(status.completed));
+        this.view.bindCallback("completerConfirm", (memberId) => this.confirmCompletion(memberId));
+        this.view.bindCallback("completerCancel", () => this.cancelCompletion());
+        this.view.bindCallback("memberAdd", (name) => this.addMember(name));
+        this.view.bindCallback("memberEdit", (member) => this.editMember(member.id, member.name));
+        this.view.bindCallback("memberRemove", (member) => this.removeMember(member.id));
+
+        this._renderMembers();
     }
 
     /**
@@ -32,34 +50,34 @@ class Controller {
      * Event fires on load. Gets all items & displays them
      */
     showAll() {
-        this.model.read((data) => this.view.render("showEntries", data));
+        this.model.read((data) => this._showEntries(data));
     }
 
     /**
      * Renders all active tasks
      */
     showActive() {
-        this.model.read({ completed: false }, (data) => this.view.render("showEntries", data));
+        this.model.read({ completed: false }, (data) => this._showEntries(data));
     }
 
     /**
      * Renders all completed tasks
      */
     showCompleted() {
-        this.model.read({ completed: true }, (data) => this.view.render("showEntries", data));
+        this.model.read({ completed: true }, (data) => this._showEntries(data));
     }
 
     /**
      * An event to fire whenever you want to add an item. Simply pass in the event
      * object and it'll handle the DOM insertion and saving of the new item.
      */
-    addItem(title) {
+    addItem(title, assignee) {
         if (title.trim() === "")
             return;
 
-        this.model.create(title, () => {
+        this.model.create(title, assignee, () => {
             this.view.render("clearNewTodo");
-            this._filter(true);
+            this._afterChange();
         });
     }
 
@@ -105,6 +123,7 @@ class Controller {
     removeItem(id) {
         this.model.remove(id, () => this.view.render("removeItem", id));
         this._filter();
+        this._renderMembers();
     }
 
     /**
@@ -120,34 +139,218 @@ class Controller {
     }
 
     /**
-     * Give it an ID of a model and a checkbox and it will update the item
-     * in storage based on the checkbox's state.
+     * Marca o desmarca una tarea. Una tarea completada siempre registra quién
+     * la completó: si tiene responsable se usa ese; si es General, se pregunta.
      *
      * @param {number} id The ID of the element to complete or uncomplete
-     * @param {object} checkbox The checkbox to check the state of complete
-     *                          or not
-     * @param {boolean|undefined} silent Prevent re-filtering the todo items
+     * @param {boolean} completed The new completed state
      */
-    toggleComplete(id, completed, silent) {
-        this.model.update(id, { completed }, () => {
-            this.view.render("elementComplete", { id, completed });
-        });
+    toggleComplete(id, completed) {
+        if (!completed) {
+            this.model.update(id, { completed: false, completedBy: null }, () => this._afterChange());
+            return;
+        }
 
-        if (!silent)
-            this._filter();
+        this.model.read(id, (data) => {
+            const { assignee, title } = data[0];
+
+            if (assignee) {
+                this.model.update(id, { completed: true, completedBy: assignee }, () => this._afterChange());
+            } else {
+                this.view.render("elementComplete", { id, completed: false });
+                this._askCompleter({ id }, `«${title}» es una tarea General.`);
+            }
+        });
+    }
+
+    /**
+     * Cambia quién completó una tarea ya completada
+     */
+    setCompletedBy(id, memberId) {
+        this.members.findAll((members) => {
+            // Solo integrantes que todavía existen; si no, se repinta la lista
+            if (!members.some((member) => member.id === memberId)) {
+                this._filter(true);
+                return;
+            }
+
+            this.model.update(id, { completedBy: memberId }, () => this._renderMembers());
+        });
     }
 
     /**
      * Will toggle ALL checkboxes' on/off state and completeness of models.
-     * Just pass in the event object.
+     * Si hay tareas General pendientes, primero pregunta quién las completó.
      */
     toggleAll(completed) {
-        this.model.read({ completed: !completed }, (data) => {
+        if (!completed) {
+            this.model.read({ completed: true }, (data) => {
+                for (let item of data)
+                    this.model.update(item.id, { completed: false, completedBy: null });
+            });
+
+            this._afterChange();
+            return;
+        }
+
+        this.model.read({ completed: false }, (data) => {
+            const general = data.filter((item) => !item.assignee).length;
+
+            if (general === 0) {
+                this._completeAll(null);
+                return;
+            }
+
+            const detail = general === 1
+                ? "Hay 1 tarea General pendiente."
+                : `Hay ${general} tareas General pendientes.`;
+            this._askCompleter({ all: true }, `${detail} Las tareas con responsable se completan a su nombre.`);
+        });
+    }
+
+    /**
+     * Completa la tarea (o todas) que esperaba saber quién la completó
+     */
+    confirmCompletion(memberId) {
+        const pending = this._pendingCompletion;
+        this._pendingCompletion = null;
+
+        if (!pending || !memberId) {
+            this._filter();
+            return;
+        }
+
+        if (pending.all)
+            this._completeAll(memberId);
+        else
+            this.model.update(pending.id, { completed: true, completedBy: memberId }, () => this._afterChange());
+    }
+
+    /**
+     * Cierra la pregunta sin completar nada
+     */
+    cancelCompletion() {
+        this._pendingCompletion = null;
+        this._filter();
+    }
+
+    /**
+     * Agrega un integrante; avisa si el nombre está vacío o repetido
+     */
+    addMember(name) {
+        name = name.trim();
+
+        this.members.findAll((members) => {
+            if (name === "") {
+                this.view.render("memberError", { message: "Escribí un nombre para agregar a alguien.", field: "new" });
+                return;
+            }
+
+            if (_nameTaken(members, name)) {
+                this.view.render("memberError", { message: `Ya hay alguien llamado «${name}». Usá otro nombre, por ejemplo con la inicial del apellido.`, field: "new" });
+                return;
+            }
+
+            this.members.create(name, () => {
+                this.view.render("clearNewMember");
+                this.view.render("memberError", { message: "" });
+                this._afterChange();
+            });
+        });
+    }
+
+    /**
+     * Cambia el nombre de un integrante; si el nombre no sirve, conserva el
+     * anterior y avisa por qué
+     */
+    editMember(id, name) {
+        name = name.trim();
+
+        this.members.findAll((members) => {
+            const current = members.find((member) => member.id === id);
+
+            if (!current)
+                return;
+
+            let problem = "";
+
+            if (name === "")
+                problem = "El nombre no puede quedar vacío";
+            else if (_nameTaken(members, name, id))
+                problem = `Ya hay alguien llamado «${name}»`;
+
+            if (problem) {
+                this._renderMembers();
+                this.view.render("memberError", { message: `${problem}; se mantuvo «${current.name}».` });
+                return;
+            }
+
+            this.members.update(id, name, () => {
+                this.view.render("memberError", { message: "" });
+                this._afterChange();
+            });
+        });
+    }
+
+    /**
+     * Un integrante solo se borra si no figura en ninguna tarea
+     */
+    removeMember(id) {
+        this._usedMemberIds((used) => {
+            if (used.has(id))
+                return;
+
+            this.members.remove(id, () => {
+                this.view.render("memberError", { message: "" });
+                this._afterChange();
+            });
+        });
+    }
+
+    _completeAll(memberId) {
+        this.model.read({ completed: false }, (data) => {
             for (let item of data)
-                this.toggleComplete(item.id, completed, true);
+                this.model.update(item.id, { completed: true, completedBy: item.assignee || memberId });
         });
 
-        this._filter();
+        this._afterChange();
+    }
+
+    _askCompleter(target, detail) {
+        this._pendingCompletion = target;
+        this._updateCount();
+        this.members.findAll((members) => this.view.render("askCompleter", { detail, members }));
+    }
+
+    _afterChange() {
+        this._filter(true);
+        this._renderMembers();
+    }
+
+    _showEntries(items) {
+        this.members.findAll((members) => this.view.render("showEntries", { items, members }));
+    }
+
+    _usedMemberIds(callback) {
+        this.model.read((todos) => {
+            const used = new Set();
+
+            for (let todo of todos) {
+                if (todo.assignee)
+                    used.add(todo.assignee);
+
+                if (todo.completedBy)
+                    used.add(todo.completedBy);
+            }
+
+            callback(used);
+        });
+    }
+
+    _renderMembers() {
+        this.members.findAll((members) => {
+            this._usedMemberIds((used) => this.view.render("members", { members, used }));
+        });
     }
 
     /**

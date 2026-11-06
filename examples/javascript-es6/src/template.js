@@ -1,12 +1,12 @@
 "use strict";
 
 const htmlEscapes = {
-    "&": "&amp",
-    "<": "&lt",
-    ">": "&gt",
-    '"': "&quot",
-    "'": "&#x27",
-    "`": "&#x60",
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#x27;",
+    "`": "&#x60;",
 };
 
 const reUnescapedHtml = /[&<>"'`]/g;
@@ -15,13 +15,49 @@ const reHasUnescapedHtml = new RegExp(reUnescapedHtml.source);
 const escape = (str) => str && reHasUnescapedHtml.test(str) ? str.replace(reUnescapedHtml, escapeHtmlChar) : str;
 const escapeHtmlChar = (chr) => htmlEscapes[chr];
 
-const createTodoItem = ({ id, title, completed, checked, index }) => `
+const memberName = (members, id) => {
+    const member = members.find((item) => item.id === id);
+    return member ? escape(member.name) : "";
+};
+
+const memberOptions = (members, selectedId) => members.map(({ id, name }) => {
+    const selected = id === selectedId ? " selected" : "";
+    return `<option value="${id}"${selected}>${escape(name)}</option>`;
+}).join("");
+
+const createOwner = (name) => name
+    ? `<span class="todo-owner">Responsable: <strong>${name}</strong></span>`
+    : `<span class="todo-owner tag-general">General</span>`;
+
+const createCompletedBy = (id, members, completedBy) => `
+            <span class="todo-done-by">
+                <label for="completed-by-${id}">Completada por</label>
+                <select id="completed-by-${id}" class="completed-by">${memberOptions(members, completedBy)}</select>
+            </span>`;
+
+const createTodoItem = ({ id, title, completed, checked, owner, completedBy }) => `
 <li data-id="${id}" class="${completed}">
     <div class="view">
-        <input class="toggle" type="checkbox" ${checked}>
-        <label>${title}</label>
-        <button class="destroy"></button>
+        <input class="toggle" type="checkbox" aria-labelledby="todo-title-${id}" ${checked}>
+        <label class="todo-title" id="todo-title-${id}">${title}</label>
+        <div class="todo-meta">
+            ${owner}${completedBy}
+        </div>
+        <div class="todo-actions">
+            <button class="edit-btn" type="button" id="edit-${id}" aria-labelledby="edit-${id} todo-title-${id}">Editar</button>
+            <button class="destroy" type="button" id="destroy-${id}" aria-labelledby="destroy-${id} todo-title-${id}">Borrar</button>
+        </div>
     </div>
+</li>
+`;
+
+const createMemberItem = ({ id, name, used }) => `
+<li data-member-id="${id}">
+    <label class="visually-hidden" for="member-${id}">Nombre de ${name}</label>
+    <input id="member-${id}" class="member-edit" value="${name}" autocomplete="off">
+    ${used
+        ? `<span class="member-note">En uso: solo se puede editar</span>`
+        : `<button class="member-remove" type="button" aria-label="Borrar a ${name}">Borrar</button>`}
 </li>
 `;
 
@@ -32,27 +68,21 @@ class Template {
      * NOTE: In real life you should be using a templating engine such as Mustache
      * or Handlebars, however, this is a vanilla JS example.
      *
-     * @param {object} data The object containing keys you want to find in the
-     *                      template to replace.
+     * @param {object[]} data    The todos to render
+     * @param {object[]} members The household members, to show their names
      * @returns {string} HTML String of an <li> element
-     *
-     * @example
-     * view.show({
-     *  id: 1,
-     *  title: "Hello World",
-     *  completed: 0,
-     * })
      */
-    show(data) {
+    show(data, members) {
         let view = "";
 
-        data.reverse().forEach((item, index) => {
+        data.reverse().forEach((item) => {
             view += createTodoItem({
                 id: item.id,
                 title: escape(item.title),
                 completed: item.completed ? "completed" : "",
                 checked: item.completed ? "checked" : "",
-                index: index,
+                owner: createOwner(memberName(members, item.assignee)),
+                completedBy: item.completed ? createCompletedBy(item.id, members, item.completedBy) : "",
             });
         });
 
@@ -67,7 +97,7 @@ class Template {
      */
     itemCounter(activeTodos) {
         const plural = activeTodos === 1 ? "" : "s";
-        return `<strong>${activeTodos}</strong> item${plural} left`;
+        return `<strong>${activeTodos}</strong> tarea${plural} pendiente${plural}`;
     }
 
     /**
@@ -77,7 +107,33 @@ class Template {
      * @returns {string} String containing the count
      */
     clearCompletedButton(completedTodos) {
-        return completedTodos > 0 ? "Clear completed" : "";
+        return completedTodos > 0 ? "Borrar completadas" : "";
+    }
+
+    /**
+     * Opciones de integrantes para un <select>
+     *
+     * @param {object[]} members     The household members
+     * @param {number|null} selected The member ID to preselect
+     * @param {string} placeholder   Text for the empty first option
+     * @returns {string} HTML String of <option> elements
+     */
+    memberOptions(members, selected, placeholder) {
+        return `<option value="">${placeholder}</option>${memberOptions(members, selected)}`;
+    }
+
+    /**
+     * Lista editable de integrantes
+     *
+     * @param {object[]} members The household members
+     * @param {Set} used         IDs of members referenced by some todo
+     * @returns {string} HTML String of <li> elements
+     */
+    memberList(members, used) {
+        if (members.length === 0)
+            return `<li class="member-empty">Todavía no hay integrantes. Agregá el primero.</li>`;
+
+        return members.map(({ id, name }) => createMemberItem({ id, name: escape(name), used: used.has(id) })).join("");
     }
 }
 

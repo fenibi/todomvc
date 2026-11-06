@@ -3,8 +3,8 @@ import Controller from "./controller";
 import Model from "./model";
 import Store from "./store";
 import Template from "./template";
+import Members from "./members-model";
 
-import "todomvc-app-css/index.css";
 import "todomvc-common/base.css";
 import "./app.css";
 
@@ -22,8 +22,9 @@ function Todo(name) {
     this.storage = new Store(name);
     this.model = new Model(this.storage);
     this.template = new Template();
+    this.members = new Members();
     this.view = new View(this.template);
-    this.controller = new Controller(this.model, this.view);
+    this.controller = new Controller(this.model, this.view, this.members);
 }
 
 /* HOT MODULE SPECIFIC */
