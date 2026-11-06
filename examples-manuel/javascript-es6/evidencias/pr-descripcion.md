@@ -2,7 +2,9 @@
 
 **Título:** `feat(ui): rediseño de la presentación de javascript-es6 con temas, paginación y acciones por tarea`
 
-**Base:** `master` de `fenibi/todomvc` · **Rama:** `feat/mruizsalva-redisenio`
+**Base:** `develop` de `fenibi/todomvc` · **Rama:** `feat/mruizsalva-redisenio`
+
+**Carpeta del proyecto:** `examples-manuel/javascript-es6` (`examples/javascript-es6` no se modifica, para no chocar con otros rediseños).
 
 ---
 
