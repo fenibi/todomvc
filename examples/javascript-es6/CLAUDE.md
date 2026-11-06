@@ -1,7 +1,9 @@
 # TodoMVC JavaScript ES6 — taller de rediseño
 
 ## Objetivo y alcance
+
 Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
+
 - Identidad: **QuestLog**, diario de explorador abierto sobre un escritorio de
   madera (skeuomorfismo medieval). Eslogan: "Turn your tasks into adventures".
 - Paleta: pergamino #E8D5AC, pergamino claro #F5E6C8, cuero #2C2118,
@@ -24,11 +26,13 @@ Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
   backend, persistencia o servicios externos.
 
 ## Comandos (de package.json)
-- `npm run dev` — servidor de desarrollo con HMR (sirve también ./dist).
-- `npm run build` — build de producción en `dist/` (¡reescribe archivos versionados!).
-- `npm run serve` — sirve `dist/` en http://localhost:7002.
+
+- `pnpm run dev` — servidor de desarrollo con HMR (sirve también ./dist).
+- `pnpm run build` — build de producción en `dist/` (¡reescribe archivos versionados!).
+- `pnpm run serve` — sirve `dist/` en http://localhost:7002.
 
 ## Archivos relevantes
+
 - `src/index.html` — estructura y clases que usan view.js y los tests.
 - `src/app.css` — único CSS propio; se carga después de todomvc-app-css.
 - `src/template.js` — HTML de cada tarea y del contador.
@@ -37,6 +41,7 @@ Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
 - `node_modules/todomvc-app-css/index.css` — estilos base (no editar).
 
 ## Convenciones observadas (existentes)
+
 - MVC explícito; solo View toca el DOM (`render`/`bindCallback`).
 - Clases ES6 con `export default`; helpers como funciones flecha.
 - Indentación de 4 espacios, comillas dobles, JSDoc en métodos públicos.
@@ -44,6 +49,7 @@ Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
 - Eventos de la lista por delegación (`$delegate`) sobre `.todo-list`.
 
 ## Reglas propuestas para el taller
+
 - No renombrar ni quitar las clases/selectores de los que dependen view.js
   y los tests: .new-todo, .todo-list, li[data-id], .toggle, .destroy, .edit,
   .editing, .completed, .toggle-all, .toggle-all-label, .todo-count, .filters
@@ -52,6 +58,7 @@ Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
 - No commitear `dist/` regenerado salvo que se decida explícitamente.
 
 ## Comportamiento a conservar
+
 - Agregar con Enter (input `change`); ignorar títulos vacíos; trim.
 - Marcar/desmarcar, marcar todas, borrar, "Clear completed" (solo visible con completadas).
 - Editar con doble clic; Enter/blur guarda; Escape cancela; título vacío borra.
@@ -62,6 +69,7 @@ Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
 - Almacenamiento en memoria (sin persistencia) — no cambiar.
 
 ## Limitaciones conocidas (previas, no corregir sin decisión explícita)
+
 - `view.js` escribe `style.display` en `.main`, `.footer` y `.clear-completed`:
   no cambiar su `display` desde CSS. Por eso el pie usa `.footer-inner` como
   grilla y el libro se pinta en el fondo de `.todoapp`.
@@ -75,6 +83,7 @@ Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
 - Al eliminar una tarea el foco vuelve al `body`.
 
 ## Cómo verificar
+
 1. `npm run dev` y probar manualmente cada punto de "Comportamiento a conservar".
 2. Capturar a viewport 1280×800 y comparar con `evidencias/antes-escritorio.png`
    (guardar nuevas evidencias en `evidencias/`).
