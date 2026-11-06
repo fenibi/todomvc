@@ -66,7 +66,7 @@ Los fallos K12 y K13 no los introdujo el rediseño: `view.js` no se modificó, y
 | R2 | Evidencia móvil | Captura del viewport 375 × 812 | `evidencias/despues-movil.png` | Guardada: una sola página con Revisar entrega pendiente, Preparar taller completada y filtro All | Aprobado |
 | R3 | Evidencia escritorio | 1280 × 800 con Preparar taller completada, Revisar entrega pendiente y filtro All; foco quitado y puntero fuera de la lista | `evidencias/despues-escritorio.png` en el mismo estado que la captura "antes" | Guardada con ese estado (verificado en el DOM antes de capturar) | Aprobado |
 
-**Nota sobre la captura "antes":** no existe `evidencias/antes-escritorio.png`. La captura previa al rediseño es `evidencias/referencia-1280x800.jpg` (JPEG, tomada con la extensión de Chrome). Tiene el mismo estado y sirve para comparar.
+**Captura "antes":** `evidencias/antes-escritorio.png`, tomada el 2026-11-06 con Playwright MCP (`browser_take_screenshot`) a 1280 × 800 sobre la versión original sin rediseño: el `dist/` del commit base `ff43b02e`, extraído con `git show` a una carpeta temporal y servido en `127.0.0.1:7099`, sin tocar el código del proyecto. Antes de capturar se comprobó en el DOM: `[ ] Revisar entrega`, `[x] Preparar taller`, "1 item left", filtro All. `evidencias/referencia-1280x800.jpg` es la captura previa, tomada con la extensión de Chrome, y queda como respaldo.
 
 ## 5. Consola
 
@@ -84,29 +84,43 @@ En las dos cargas solo aparecieron los 404 de `learn.json` y `favicon.ico`, ya p
 
 ## 7. Recorrido grabado sobre el despliegue publicado
 
-- **URL grabada:** `https://project-brg6s.vercel.app` (dominio de producción del proyecto `practica_ia`; resuelve al despliegue `dpl_E3pA4ywjtmSkLmQXeecG24uZPTP4`, `READY`, según `evidencias/despliegue.md`). La página cargó sin pantalla de inicio de sesión: la grabación no contiene logins ni secretos.
+Grabación del 2026-11-06. Reemplaza a la primera (2026-11-03, 54,6 s), que quedaba por debajo de los 60–90 s pedidos. Para alargarla se agregaron acciones reales (otra tarea, eliminar, limpiar completadas, estado vacío, vuelta a escritorio y "Mark all"), sin esperas artificiales.
+
+- **URL grabada:** `https://project-brg6s.vercel.app`. Durante la grabación (17:00–17:02 UTC) el dominio apuntaba al despliegue `dpl_EXb9Jc15HNiUV9q9ZqzPiskALQFx` (`READY`, producción), el último antes de publicar este video. La página cargó sin inicio de sesión: la grabación no contiene logins ni secretos.
 - **Archivo:** `C:\Users\franc\Practica IA\todomvc\examples\javascript-es6\evidencias\recorrido.webm` (ruta absoluta pasada a `browser_start_video`).
-- **Herramientas:** Playwright MCP `browser_start_video` (1280 × 800, cursor animado) y `browser_stop_video`. Antes hubo que instalar el ffmpeg que usa Playwright para grabar (revisión 1011), con el CLI de la misma versión del MCP; lo autorizaste en el chat.
-- **Duración:** 54,6 s. Es menos que los 60–90 s pedidos: el recorrido completo terminó antes y no se agregaron esperas artificiales.
+- **Herramientas:** Playwright MCP `browser_start_video` (1280 × 800) y `browser_stop_video`.
+- **Duración:** 72,4 s.
 
 | # | Paso del recorrido | Entrada | Esperado | Observado (verificado en el DOM durante la grabación) | Resultado |
 |---|---|---|---|---|---|
-| V1 | Estado inicial | Abrir la URL | Sin tareas, lista oculta, filtro All | 0 tareas, "0 items left", `.main` oculto, "All" seleccionado | Aprobado |
-| V2 | Crear dos tareas | Escribir "Preparar taller" + Enter y "Revisar entrega" + Enter en `textbox "What needs to be done?"` | 2 tareas pendientes, la nueva arriba | `[ ] Revisar entrega`, `[ ] Preparar taller`; "2 items left" | Aprobado |
-| V3 | Editar una | Doble clic en "Revisar entrega", End, " final", Enter | Título "Revisar entrega final"; fin de la edición | `[ ] Revisar entrega final`; ninguna `li.editing` | Aprobado |
-| V4 | Completar una | Clic en `checkbox "Complete quest: Preparar taller"` | Completada; "1 item left" | `[x] Preparar taller`; "1 item left" | Aprobado |
-| V5 | Filtrar pendientes | Clic en `link "Active"` | Solo pendientes; `#/active` | Solo "Revisar entrega final"; URL `…/#/active`; "Active" seleccionado | Aprobado |
-| V6 | Filtrar completadas | Clic en `link "Completed"` | Solo completadas; `#/completed` | Solo "Preparar taller"; URL `…/#/completed` | Aprobado |
-| V7 | Volver a All | Clic en `link "All"` | Ambas tareas | Ambas; URL `…/#/` | Aprobado |
-| V8 | Adaptación móvil | Viewport 375 × 812; desplazamiento hasta el pie; Active y luego All | Una sola página, sin scroll horizontal, objetos del escritorio ocultos, filtros funcionando | Una columna (`grid-template-columns: 276px`); `scrollWidth` 360 = `clientWidth` 360; `.desk-scene` oculto; Active mostró solo la pendiente y All ambas | Aprobado |
-| V9 | El archivo existe | Revisar el disco después de `browser_stop_video` | Archivo `.webm` presente | 7 036 549 bytes; contenedor WebM, video VP8 1280 × 800 a 25 fps, duración 00:00:54.56 (lectura de metadatos con el ffmpeg de Playwright) | Aprobado |
-| V10 | El archivo se reproduce | Cargar el `.webm` en un `<video>` de Chromium (servido localmente, porque el MCP bloquea `file:`), `play()` 1,5 s y saltos a 3 s, 29 s y 52 s | Reproduce sin error y muestra el recorrido | `videoWidth` 1280, `videoHeight` 800, duración 54,6 s, avanzó de 0 a 1,5 s, `error: null`. Fotogramas: 3 s = estado inicial vacío; 29 s = "Revisar entrega final" pendiente y "Preparar taller" completada; 52 s = vista móvil con filtro Active | Aprobado |
+| V1 | Estado inicial | Abrir la URL a 1280 × 800 | Sin tareas, lista y pie ocultos | 0 tareas; `.main` y `.footer` ocultos; foco en el campo; lámpara visible | Aprobado |
+| V2 | Crear dos tareas | "Preparar taller" + Enter y "Revisar entrega" + Enter en `textbox "What needs to be done?"` | 2 pendientes, la nueva arriba | `Revisar entrega`, `Preparar taller`; "2 items left" | Aprobado |
+| V3 | Crear una tercera | "Tarea temporal" + Enter | 3 tareas | 3 tareas, "Tarea temporal" arriba | Aprobado |
+| V4 | Editar una | Doble clic en "Revisar entrega", " final", Enter | "Revisar entrega final"; fin de la edición | `[ ] Revisar entrega final`; ninguna `li.editing` | Aprobado |
+| V5 | Completar una | Clic en `checkbox "Complete quest: Preparar taller"` | Completada; "2 items left" | `[x] Preparar taller`; "2 items left" | Aprobado |
+| V6 | Filtrar pendientes | Clic en `link "Active"` | Solo pendientes; `#/active` | "Tarea temporal" y "Revisar entrega final"; `#/active`; Active seleccionado | Aprobado |
+| V7 | Filtrar completadas | Clic en `link "Completed"` | Solo completadas; `#/completed` | Solo "Preparar taller"; `#/completed`; Completed seleccionado | Aprobado |
+| V8 | Volver a All y eliminar | Clic en `link "All"`, hover y clic en `button "Delete quest: Tarea temporal"` | La tarea desaparece | `[ ] Revisar entrega final`, `[x] Preparar taller`; "1 item left" | Aprobado |
+| V9 | Adaptación móvil | Viewport 375 × 812 | Una sola página, sin scroll horizontal | Una columna (`grid-template-columns: 276px`); `scrollWidth` 360 = `clientWidth` 360 | Aprobado |
+| V10 | Limpiar completadas (móvil) | Completar "Revisar entrega final" y clic en "Clear completed" | Lista vacía con invitación | 0 tareas; `.main` y `.footer` ocultos; "No quests yet. Write your first one above."; `.desk-scene` oculto; `scrollWidth` 375 | Aprobado |
+| V11 | Vuelta a escritorio y Mark all | Crear "Mostrar QuestLog", viewport 1280 × 800, clic en "Mark all as complete" | Todas completadas; escena visible | `[x] Mostrar QuestLog`; "0 items left"; `.desk-scene` visible; llama con animación `lamp-flicker` | Aprobado |
+| V12 | El archivo existe | Revisar el disco después de `browser_stop_video` | Archivo `.webm` presente | 9 709 740 bytes; WebM VP8 1280 × 800 a 25 fps; duración 00:01:12.36 (metadatos leídos con el ffmpeg de Playwright); SHA-1 `0b648443133ae07d4299237be6e4c57a85cd4255` | Aprobado |
+| V13 | El archivo se reproduce | Cargar el `.webm` en un `<video>` de Chromium servido en local (el MCP bloquea `file:`), `play()` 1,5 s y salto a 70 s | Reproduce sin error | `videoWidth` 1280, `videoHeight` 800, duración 72,36 s, avanzó de 0 a 1,5 s, salto a 70 s correcto, `error: null` | Aprobado |
 
-**Consola durante la grabación:** solo el 404 de `learn.json`, el mismo que aparece en local.
+**Consola durante la grabación:** solo el 404 de `learn.json`, que ya existía antes del rediseño.
 
-**Notas sobre el video:**
-- En la parte móvil, la página ocupa los 375 px de la izquierda del cuadro de 1280 × 800 y el resto queda gris: el tamaño del video es fijo y el viewport se achicó dentro de él.
-- El ffmpeg de Playwright es una compilación reducida (no tiene salida `null`), así que la decodificación completa se verificó reproduciendo el video en el navegador, no con ffmpeg.
+**Nota:** en la parte móvil, la página ocupa los 375 px de la izquierda del cuadro de 1280 × 800: el tamaño del video es fijo y el viewport se achica dentro de él.
+
+### Publicación del video y comprobación final
+
+El video se publicó con `npm run build`, copiándolo a `dist/evidencias/` y ejecutando `vercel dist --prod`.
+
+| # | Comprobación | Herramienta | Observado | Resultado |
+|---|---|---|---|---|
+| P1 | Despliegue nuevo | Vercel MCP `list_deployments` y `get_deployment` (`project-brg6s.vercel.app`) | `dpl_9BWyNs7hzWm9hKPtqTSu7swnhW1n`, `READY`, producción, origen `cli`, alias `project-brg6s.vercel.app`; commit asociado `41d38890` | Aprobado |
+| P2 | La app no cambió | Vercel MCP `list_deployment_files` en la versión grabada (`dpl_EXb9…`) y en la final (`dpl_9BWy…`) | Mismos hashes en `index.html`, `app.css`, `app.bundle.js`, `base.js` y los 22 recursos; solo cambia `evidencias/recorrido.webm` | Aprobado |
+| P3 | Video público igual al local | `curl` a `https://project-brg6s.vercel.app/evidencias/recorrido.webm` | 200, `video/webm`, 9 709 740 bytes, SHA-1 `0b648443…4cd4255`, igual al archivo local | Aprobado |
+| P4 | Flujo básico en la web publicada | Playwright MCP: crear dos tareas, completar "Preparar taller", filtro Active | `[ ] Revisar entrega` solo, "1 item left", `#/active`, Active seleccionado | Aprobado |
 
 ## 8. Qué no se probó
 
