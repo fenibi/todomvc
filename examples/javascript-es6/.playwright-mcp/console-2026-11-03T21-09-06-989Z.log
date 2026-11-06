@@ -1,0 +1,45 @@
+[      42ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[      58ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[      59ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[      88ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/favicon.ico:0
+[  272470ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  272471ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  272487ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  272496ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/favicon.ico:0
+[  294132ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  294132ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  294140ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  294157ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  294158ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  294162ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  294689ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  294690ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  294694ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  305786ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  305786ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  305790ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  305807ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  305807ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  305811ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  361994ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  361994ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  361998ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  362018ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  362018ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  362023ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  397735ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  397735ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  397738ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  397757ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  397757ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  397761ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  398072ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  398072ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  398077ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[  398092ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[  398093ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[  398096ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[ 2836747ms] [INFO] [webpack-dev-server] Disconnected! @ http://localhost:7001/app.bundle.js:2795
+[ 2836747ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:7001/app.bundle.js:2795
+[ 5330095ms] [INFO] [webpack-dev-server] Disconnected! @ http://localhost:7001/app.bundle.js:2795
+[ 5330095ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:7001/app.bundle.js:2795

@@ -1,0 +1,122 @@
+[      27ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[      58ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[      60ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[      89ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/favicon.ico:0
+[   12859ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[   12875ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[   12876ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[   20788ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   20857ms] [INFO] [webpack-dev-server] App hot update... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   20857ms] [LOG] [HMR] Checking for updates on the server... @ http://127.0.0.1:7001/app.bundle.js:4049
+[   20872ms] [LOG] [HMR] Updated modules: @ http://127.0.0.1:7001/app.bundle.js:4049
+[   20873ms] [LOG] [HMR]  - ./node_modules/css-loader/dist/cjs.js!./src/app.css @ http://127.0.0.1:7001/app.bundle.js:4049
+[   20873ms] [LOG] [HMR] App is up to date. @ http://127.0.0.1:7001/app.bundle.js:4049
+[   26090ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[   26119ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[   26120ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[   31354ms] [INFO] [webpack-dev-server] "dist\app.css" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   31355ms] [INFO] [webpack-dev-server] "dist\app.bundle.js" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   31355ms] [INFO] [webpack-dev-server] "dist\app.css.map" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   31356ms] [INFO] [webpack-dev-server] "dist\app.bundle.js.map" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   31356ms] [INFO] [webpack-dev-server] "dist\index.html" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   31381ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[   31381ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[   31394ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[   49961ms] [INFO] [webpack-dev-server] "dist\app.bundle.js.map" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   49961ms] [INFO] [webpack-dev-server] "dist\app.css" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   49975ms] [INFO] [webpack-dev-server] "dist\app.css.map" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   49975ms] [INFO] [webpack-dev-server] "dist\index.html" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[   49994ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[   49995ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[   50001ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[  126105ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[  126105ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  126108ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[  471640ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  471706ms] [INFO] [webpack-dev-server] App hot update... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  471706ms] [LOG] [HMR] Checking for updates on the server... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  471720ms] [LOG] [HMR] Updated modules: @ http://127.0.0.1:7001/app.bundle.js:4049
+[  471720ms] [LOG] [HMR]  - ./src/app.js @ http://127.0.0.1:7001/app.bundle.js:4049
+[  471720ms] [LOG] [HMR]  - ./src/theme.js @ http://127.0.0.1:7001/app.bundle.js:4049
+[  471720ms] [LOG] [HMR] App is up to date. @ http://127.0.0.1:7001/app.bundle.js:4049
+[  471884ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  471948ms] [INFO] [webpack-dev-server] App hot update... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  471948ms] [LOG] [HMR] Checking for updates on the server... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  471959ms] [LOG] [HMR] Updated modules: @ http://127.0.0.1:7001/app.bundle.js:4049
+[  471959ms] [LOG] [HMR]  - ./src/app.js @ http://127.0.0.1:7001/app.bundle.js:4049
+[  471959ms] [LOG] [HMR] App is up to date. @ http://127.0.0.1:7001/app.bundle.js:4049
+[  472138ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  472207ms] [INFO] [webpack-dev-server] App hot update... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  472207ms] [LOG] [HMR] Checking for updates on the server... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  472216ms] [LOG] [HMR] Nothing hot updated. @ http://127.0.0.1:7001/app.bundle.js:4049
+[  472216ms] [LOG] [HMR] App is up to date. @ http://127.0.0.1:7001/app.bundle.js:4049
+[  510528ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  510623ms] [INFO] [webpack-dev-server] App hot update... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  510623ms] [LOG] [HMR] Checking for updates on the server... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  510636ms] [LOG] [HMR] Updated modules: @ http://127.0.0.1:7001/app.bundle.js:4049
+[  510637ms] [LOG] [HMR]  - data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 28 28%27%3E%3Crect x=%275%27 y=%275%27 width=%2718%27 height=%2718%27 rx=%272%27 fill=%27%23ffffff%27 stroke=%27%232c4fa3%27 stroke-width=%272%27/%3E%3Cpath d=%27M8 14.5l4.2 4.6L24.5 5%27 fill=%27none%27 stroke=%27%232c4fa3%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E @ http://127.0.0.1:7001/app.bundle.js:4049
+[  510637ms] [LOG] [HMR]  - data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 28 28%27%3E%3Crect x=%275%27 y=%275%27 width=%2718%27 height=%2718%27 rx=%272%27 fill=%27%23ffffff%27 stroke=%27%236b7a99%27 stroke-width=%272%27/%3E%3C/svg%3E @ http://127.0.0.1:7001/app.bundle.js:4049
+[  510637ms] [LOG] [HMR]  - ./node_modules/css-loader/dist/cjs.js!./src/app.css @ http://127.0.0.1:7001/app.bundle.js:4049
+[  510637ms] [LOG] [HMR]  - data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 28 28%27%3E%3Crect x=%275%27 y=%275%27 width=%2718%27 height=%2718%27 rx=%273%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%272%27/%3E%3C/svg%3E @ http://127.0.0.1:7001/app.bundle.js:4049
+[  510637ms] [LOG] [HMR]  - data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 28 28%27%3E%3Crect x=%275%27 y=%275%27 width=%2718%27 height=%2718%27 rx=%273%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%272%27/%3E%3Cpath d=%27M8 14.5l4.2 4.6L24.5 5%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E @ http://127.0.0.1:7001/app.bundle.js:4049
+[  510637ms] [LOG] [HMR] App is up to date. @ http://127.0.0.1:7001/app.bundle.js:4049
+[  516462ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  516536ms] [INFO] [webpack-dev-server] App hot update... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  516536ms] [LOG] [HMR] Checking for updates on the server... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  516548ms] [LOG] [HMR] Updated modules: @ http://127.0.0.1:7001/app.bundle.js:4049
+[  516549ms] [LOG] [HMR]  - ./node_modules/css-loader/dist/cjs.js!./src/app.css @ http://127.0.0.1:7001/app.bundle.js:4049
+[  516549ms] [LOG] [HMR] App is up to date. @ http://127.0.0.1:7001/app.bundle.js:4049
+[  516554ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  516646ms] [INFO] [webpack-dev-server] App hot update... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  516646ms] [LOG] [HMR] Checking for updates on the server... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  516653ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  516722ms] [INFO] [webpack-dev-server] App hot update... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  516733ms] [LOG] [HMR] Updated modules: @ http://127.0.0.1:7001/app.bundle.js:4049
+[  516733ms] [LOG] [HMR]  - ./node_modules/css-loader/dist/cjs.js!./src/app.css @ http://127.0.0.1:7001/app.bundle.js:4049
+[  516741ms] [LOG] [HMR] Updated modules: @ http://127.0.0.1:7001/app.bundle.js:4049
+[  516741ms] [LOG] [HMR]  - ./node_modules/css-loader/dist/cjs.js!./src/app.css @ http://127.0.0.1:7001/app.bundle.js:4049
+[  516741ms] [LOG] [HMR] App is up to date. @ http://127.0.0.1:7001/app.bundle.js:4049
+[  522831ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[  522864ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[  522864ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  523494ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[  523495ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  523505ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[  537628ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[  537628ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  537631ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[  548213ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  548301ms] [INFO] [webpack-dev-server] App hot update... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  548302ms] [LOG] [HMR] Checking for updates on the server... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  548317ms] [LOG] [HMR] Updated modules: @ http://127.0.0.1:7001/app.bundle.js:4049
+[  548317ms] [LOG] [HMR]  - ./node_modules/css-loader/dist/cjs.js!./src/app.css @ http://127.0.0.1:7001/app.bundle.js:4049
+[  548317ms] [LOG] [HMR] App is up to date. @ http://127.0.0.1:7001/app.bundle.js:4049
+[  555957ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[  555992ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[  555993ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  565127ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[  565127ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  565135ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[  581033ms] [INFO] [webpack-dev-server] "dist\app.css" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581044ms] [INFO] [webpack-dev-server] "dist\app.bundle.js" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581044ms] [INFO] [webpack-dev-server] "dist\app.bundle.js.map" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581045ms] [INFO] [webpack-dev-server] "dist\app.css.map" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581045ms] [INFO] [webpack-dev-server] "dist\index.html" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581061ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581062ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  581068ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[  581161ms] [INFO] [webpack-dev-server] "dist\app.bundle.js.map" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581175ms] [INFO] [webpack-dev-server] "dist\app.css" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581175ms] [INFO] [webpack-dev-server] "dist\app.css.map" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581176ms] [INFO] [webpack-dev-server] "dist\index.html" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581196ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[  581196ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  581201ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0
+[  787443ms] [INFO] [webpack-dev-server] "dist\app.css" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  787444ms] [INFO] [webpack-dev-server] "dist\app.bundle.js" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  787445ms] [INFO] [webpack-dev-server] "dist\app.css.map" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  787445ms] [INFO] [webpack-dev-server] "dist\app.bundle.js.map" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  787445ms] [INFO] [webpack-dev-server] "dist\index.html" from static directory was changed. Reloading... @ http://127.0.0.1:7001/app.bundle.js:2795
+[  787470ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://127.0.0.1:7001/app.bundle.js:2795
+[  787471ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://127.0.0.1:7001/app.bundle.js:4049
+[  787479ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:7001/learn.json:0

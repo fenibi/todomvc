@@ -1,0 +1,106 @@
+[      38ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[      67ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[      68ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[      94ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/favicon.ico:0
+[     307ms] TypeError: (0 , _helpers__WEBPACK_IMPORTED_MODULE_0__.qsa)(...).findIndex is not a function
+    at View._removeItem (http://localhost:7001/app.bundle.js:5092:91)
+    at View.render (http://localhost:7001/app.bundle.js:5135:22)
+    at http://localhost:7001/app.bundle.js:4273:47
+    at Store.remove (http://localhost:7001/app.bundle.js:4735:13)
+    at Model.remove (http://localhost:7001/app.bundle.js:4545:22)
+    at Controller.removeItem (http://localhost:7001/app.bundle.js:4273:20)
+    at http://localhost:7001/app.bundle.js:4182:61
+    at HTMLButtonElement.<anonymous> (http://localhost:7001/app.bundle.js:5188:113)
+    at HTMLUListElement.dispatchEvent (http://localhost:7001/app.bundle.js:4424:21)
+[     309ms] TypeError: (0 , _helpers__WEBPACK_IMPORTED_MODULE_0__.qsa)(...).findIndex is not a function
+    at View._removeItem (http://localhost:7001/app.bundle.js:5092:91)
+    at View.render (http://localhost:7001/app.bundle.js:5135:22)
+    at http://localhost:7001/app.bundle.js:4273:47
+    at Store.remove (http://localhost:7001/app.bundle.js:4735:13)
+    at Model.remove (http://localhost:7001/app.bundle.js:4545:22)
+    at Controller.removeItem (http://localhost:7001/app.bundle.js:4273:20)
+    at http://localhost:7001/app.bundle.js:4182:61
+    at HTMLButtonElement.<anonymous> (http://localhost:7001/app.bundle.js:5188:113)
+    at HTMLUListElement.dispatchEvent (http://localhost:7001/app.bundle.js:4424:21)
+[   10421ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[   10421ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[   10428ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[   10473ms] TypeError: (0 , _helpers__WEBPACK_IMPORTED_MODULE_0__.qsa)(...).findIndex is not a function
+    at View._removeItem (http://localhost:7001/app.bundle.js:5092:91)
+    at View.render (http://localhost:7001/app.bundle.js:5135:22)
+    at http://localhost:7001/app.bundle.js:4273:47
+    at Store.remove (http://localhost:7001/app.bundle.js:4735:13)
+    at Model.remove (http://localhost:7001/app.bundle.js:4545:22)
+    at Controller.removeItem (http://localhost:7001/app.bundle.js:4273:20)
+    at http://localhost:7001/app.bundle.js:4182:61
+    at HTMLButtonElement.<anonymous> (http://localhost:7001/app.bundle.js:5188:113)
+    at HTMLUListElement.dispatchEvent (http://localhost:7001/app.bundle.js:4424:21)
+[   10475ms] TypeError: (0 , _helpers__WEBPACK_IMPORTED_MODULE_0__.qsa)(...).findIndex is not a function
+    at View._removeItem (http://localhost:7001/app.bundle.js:5092:91)
+    at View.render (http://localhost:7001/app.bundle.js:5135:22)
+    at http://localhost:7001/app.bundle.js:4273:47
+    at Store.remove (http://localhost:7001/app.bundle.js:4735:13)
+    at Model.remove (http://localhost:7001/app.bundle.js:4545:22)
+    at Controller.removeItem (http://localhost:7001/app.bundle.js:4273:20)
+    at http://localhost:7001/app.bundle.js:4182:61
+    at HTMLButtonElement.<anonymous> (http://localhost:7001/app.bundle.js:5188:113)
+    at HTMLUListElement.dispatchEvent (http://localhost:7001/app.bundle.js:4424:21)
+[   17179ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[   17179ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[   17185ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[   17225ms] TypeError: (0 , _helpers__WEBPACK_IMPORTED_MODULE_0__.qsa)(...).findIndex is not a function
+    at View._removeItem (http://localhost:7001/app.bundle.js:5092:91)
+    at View.render (http://localhost:7001/app.bundle.js:5135:22)
+    at http://localhost:7001/app.bundle.js:4273:47
+    at Store.remove (http://localhost:7001/app.bundle.js:4735:13)
+    at Model.remove (http://localhost:7001/app.bundle.js:4545:22)
+    at Controller.removeItem (http://localhost:7001/app.bundle.js:4273:20)
+    at http://localhost:7001/app.bundle.js:4182:61
+    at HTMLButtonElement.<anonymous> (http://localhost:7001/app.bundle.js:5188:113)
+    at HTMLUListElement.dispatchEvent (http://localhost:7001/app.bundle.js:4424:21)
+[   17393ms] TypeError: (0 , _helpers__WEBPACK_IMPORTED_MODULE_0__.qsa)(...).findIndex is not a function
+    at View._removeItem (http://localhost:7001/app.bundle.js:5092:91)
+    at View.render (http://localhost:7001/app.bundle.js:5135:22)
+    at http://localhost:7001/app.bundle.js:4273:47
+    at Store.remove (http://localhost:7001/app.bundle.js:4735:13)
+    at Model.remove (http://localhost:7001/app.bundle.js:4545:22)
+    at Controller.removeItem (http://localhost:7001/app.bundle.js:4273:20)
+    at http://localhost:7001/app.bundle.js:4182:61
+    at HTMLButtonElement.<anonymous> (http://localhost:7001/app.bundle.js:5188:113)
+    at HTMLUListElement.dispatchEvent (http://localhost:7001/app.bundle.js:4424:21)
+[   23313ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:7001/app.bundle.js:2795
+[   23364ms] [INFO] [webpack-dev-server] App hot update... @ http://localhost:7001/app.bundle.js:2795
+[   23364ms] [LOG] [HMR] Checking for updates on the server... @ http://localhost:7001/app.bundle.js:4049
+[   23375ms] [LOG] [HMR] Updated modules: @ http://localhost:7001/app.bundle.js:4049
+[   23375ms] [LOG] [HMR]  - ./src/view.js @ http://localhost:7001/app.bundle.js:4049
+[   23375ms] [LOG] [HMR]  - ./src/app.js @ http://localhost:7001/app.bundle.js:4049
+[   23375ms] [LOG] [HMR] App is up to date. @ http://localhost:7001/app.bundle.js:4049
+[   28342ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[   28361ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[   28362ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[   48418ms] [INFO] [webpack-dev-server] "dist\app.css" from static directory was changed. Reloading... @ http://localhost:7001/app.bundle.js:2795
+[   48418ms] [INFO] [webpack-dev-server] "dist\app.bundle.js" from static directory was changed. Reloading... @ http://localhost:7001/app.bundle.js:2795
+[   48419ms] [INFO] [webpack-dev-server] "dist\app.bundle.js.map" from static directory was changed. Reloading... @ http://localhost:7001/app.bundle.js:2795
+[   48419ms] [INFO] [webpack-dev-server] "dist\app.css.map" from static directory was changed. Reloading... @ http://localhost:7001/app.bundle.js:2795
+[   48444ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[   48444ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[   48454ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[   48555ms] [INFO] [webpack-dev-server] "dist\app.bundle.js.map" from static directory was changed. Reloading... @ http://localhost:7001/app.bundle.js:2795
+[   48555ms] [INFO] [webpack-dev-server] "dist\app.css" from static directory was changed. Reloading... @ http://localhost:7001/app.bundle.js:2795
+[   48565ms] [INFO] [webpack-dev-server] "dist\app.css.map" from static directory was changed. Reloading... @ http://localhost:7001/app.bundle.js:2795
+[   48565ms] [INFO] [webpack-dev-server] "dist\index.html" from static directory was changed. Reloading... @ http://localhost:7001/app.bundle.js:2795
+[   48589ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:7001/app.bundle.js:2795
+[   48590ms] [LOG] [HMR] Waiting for update signal from WDS... @ http://localhost:7001/app.bundle.js:4049
+[   48598ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7001/learn.json:0
+[ 1605644ms] [INFO] [webpack-dev-server] Disconnected! @ http://localhost:7001/app.bundle.js:2795
+[ 1605644ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:7001/app.bundle.js:2795
+[42670325ms] [INFO] [webpack-dev-server] Disconnected! @ http://localhost:7001/app.bundle.js:2795
+[42670326ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:7001/app.bundle.js:2795
+[46455377ms] [INFO] [webpack-dev-server] Disconnected! @ http://localhost:7001/app.bundle.js:2795
+[46455377ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:7001/app.bundle.js:2795
+[55497389ms] [INFO] [webpack-dev-server] Disconnected! @ http://localhost:7001/app.bundle.js:2795
+[55497389ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:7001/app.bundle.js:2795
+[64814961ms] [INFO] [webpack-dev-server] Disconnected! @ http://localhost:7001/app.bundle.js:2795
+[64814961ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:7001/app.bundle.js:2795
+[69104852ms] [INFO] [webpack-dev-server] Disconnected! @ http://localhost:7001/app.bundle.js:2795
+[69104852ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:7001/app.bundle.js:2795

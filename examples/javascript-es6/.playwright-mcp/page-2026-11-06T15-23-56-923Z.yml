@@ -1,0 +1,42 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - switch "Dark mode" [ref=e4] [cursor=pointer]
+      - heading "todos" [level=1] [ref=e5]
+      - generic [ref=e6]:
+        - textbox "New task" [ref=e7]:
+          - /placeholder: What needs to be done?
+        - button "Add" [ref=e8] [cursor=pointer]
+    - main [ref=e14]:
+      - generic [ref=e15]:
+        - checkbox "Mark all as complete" [ref=e16]
+        - generic [ref=e17] [cursor=pointer]: Mark all as complete
+      - list [ref=e18]:
+        - listitem [ref=e54]:
+          - generic [ref=e55]:
+            - checkbox "Complete Comprar pan integral" [ref=e56] [cursor=pointer]
+            - generic [ref=e57]: Comprar pan integral
+            - button "Edit Comprar pan integral" [ref=e58] [cursor=pointer]: Edit
+            - button "Delete Comprar pan integral" [ref=e59] [cursor=pointer]: Delete
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - strong [ref=e60]: "1"
+        - text: item left
+      - list [ref=e28]:
+        - listitem [ref=e29]:
+          - link "All" [ref=e30] [cursor=pointer]:
+            - /url: "#/"
+        - listitem [ref=e31]:
+          - link "Active" [active] [ref=e32] [cursor=pointer]:
+            - /url: "#/active"
+        - listitem [ref=e33]:
+          - link "Completed" [ref=e34] [cursor=pointer]:
+            - /url: "#/completed"
+      - button "Clear completed" [ref=e53] [cursor=pointer]
+  - contentinfo [ref=e9]:
+    - paragraph [ref=e10]: Double-click to edit a todo
+    - paragraph [ref=e11]: Created by the TodoMVC Team
+    - paragraph [ref=e12]:
+      - text: Part of
+      - link "TodoMVC" [ref=e13] [cursor=pointer]:
+        - /url: http://todomvc.com
