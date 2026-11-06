@@ -214,6 +214,15 @@ Este despliegue reemplaza en producción a `dpl_HG6qtXCRyhKeJ9vPe4xMX9a3ZzNL`.
   - 0 errores de JavaScript. En consola, solo los 404 de siempre (`learn.json` y `favicon.ico`).
 - **Resultado:** el despliegue automático a producción funciona.
 
+### Repositorio original y PR (2026-11-06)
+
+- Con acceso de escritura a `fenibi/todomvc`, la rama `feat/FvillaGit7-redisenio` se subió a `origin` (`fenibi/todomvc`) y la rama local pasó a seguir `origin`. La PR se abre desde ahí contra `master`.
+- **Intento de reconectar Vercel a `fenibi/todomvc`:** no fue posible.
+  - `mcp__vercel__git_namespaces` lista solo la cuenta `FvillaGit7`.
+  - `mcp__vercel__search_repo` con "todomvc" devuelve solo `FvillaGit7/todomvc`.
+  - La app de GitHub de Vercel no está instalada en la cuenta `fenibi`, e instalarla corresponde a su dueño.
+- **Decisión:** Vercel sigue conectado al fork, solo para desplegar. Cada push se manda a los dos remotos (`origin` para la PR, `fork` para Vercel).
+
 ## Lo que no se hizo
 
 - No se consultaron logs de runtime: es un sitio estático sin funciones y el despliegue no falló.
