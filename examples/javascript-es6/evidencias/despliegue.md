@@ -60,8 +60,21 @@ La URL consultada al principio es la **URL única del despliegue**. La URL de pr
 ## Observaciones
 
 1. **Corregido: la app no está en `/src/`.** En la primera consulta inferí, por el árbol de `list_deployment_files`, que los archivos quedaban bajo `/src/` y que `/` daría 404. La verificación lo desmiente: `/` responde 200 y `/src/` 404. El nombre `src` en ese listado corresponde a la carpeta de origen de la subida, no a la ruta publicada.
-2. **El commit asociado no contiene el rediseño** (sigue vigente). Los metadatos de Git apuntan a `93c0836e` (solo CLAUDE.md), pero lo publicado es el rediseño, que en el repositorio todavía no tiene commit. Se subió con la CLI desde la copia local, así que el despliegue no se puede reproducir desde Git tal como está.
+2. **Commit asociado (resuelto).** En la primera consulta los metadatos de Git apuntaban a `93c0836e` (solo CLAUDE.md), porque el rediseño todavía no tenía commit cuando se subió con la CLI. El despliegue final (`dpl_9BWy…`, ver la sección siguiente) quedó asociado a `41d38890`, que ya contiene el rediseño y está en GitHub.
 3. **Acceso.** La URL de producción es pública. Las URL generadas por Vercel (la del despliegue y `practicaia-fran3478s-projects…`) requieren iniciar sesión. No se creó ningún enlace para compartir ni se cambió la protección.
+
+## Publicación final con el video (2026-11-06)
+
+El video regrabado (72,4 s) se publicó con `npm run build`, la copia a `dist/evidencias/recorrido.webm` y `npx vercel@65.8.0 dist --prod`. Después se verificó con estas consultas de solo lectura:
+
+| # | Herramienta | Parámetros | Resultado |
+|---|---|---|---|
+| 11 | `list_deployments` | `projectId` de `practica_ia`, `limit: 4` | Tres despliegues, todos `READY` en producción. El más nuevo es `dpl_9BWyNs7hzWm9hKPtqTSu7swnhW1n` (2026-11-06 17:09 UTC, commit `41d38890`). |
+| 12 | `get_deployment` | `idOrUrl: project-brg6s.vercel.app` | Resuelve a `dpl_9BWyNs7hzWm9hKPtqTSu7swnhW1n`: `READY`, `production`, origen `cli`, alias `project-brg6s.vercel.app` y `practicaia-fran3478s-projects.vercel.app`, `aliasError: null`. |
+| 13 | `list_deployment_files` | `dpl_EXb9Jc15HNiUV9q9ZqzPiskALQFx` (versión grabada) y `dpl_9BWyNs7hzWm9hKPtqTSu7swnhW1n` (final) | Mismos hashes en `index.html`, `app.css`, `app.bundle.js`, `base.js` y los 22 recursos. Solo cambia `evidencias/recorrido.webm`: `e9ef8133…` (video anterior) → `0b648443…` (video nuevo). |
+| 14 | `curl` (Bash, solo lectura) | `GET /`, `/evidencias/recorrido.webm` y archivos de la app en `project-brg6s.vercel.app` | `/` → 200 `text/html`. Video → 200 `video/webm`, 9 709 740 bytes, SHA-1 `0b648443133ae07d4299237be6e4c57a85cd4255`, igual al archivo local. `index.html`, `app.css` y `app.bundle.js` tienen el mismo SHA-1 que el `dist/` local. |
+
+**Conclusión:** la publicación final es `dpl_9BWyNs7hzWm9hKPtqTSu7swnhW1n`. Tiene la misma app que la versión grabada (`dpl_EXb9…`) y solo agrega el video nuevo, que se reproduce desde la URL pública. El flujo básico repetido sobre esta publicación con Playwright está en `verificacion.md` (P1–P4).
 
 ## Datos sensibles
 

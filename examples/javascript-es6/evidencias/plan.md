@@ -8,100 +8,82 @@ Proponé un plan breve para rediseñar este TodoMVC sin cambiar su lógica de ne
 
 Conservá las funciones de crear, editar, completar, filtrar, eliminar y limpiar tareas completadas. Priorizá cambios de CSS y modificaciones mínimas de HTML, sin agregar funcionalidades ni dependencias innecesarias. Incluí navegación por teclado, foco visible, etiquetas accesibles y comprensibles, contraste adecuado, estados hover y focus claramente identificables y una versión responsive sin desbordamiento horizontal a 375 px. La ambientación medieval y las animaciones decorativas no deben comprometer la legibilidad, la accesibilidad, el rendimiento ni el funcionamiento original de la aplicación.
 
-Plan de rediseño de QuestLog
+## Plan de rediseño de QuestLog
 
-Lo nuevo en esta versión: todos los textos visibles y accesibles quedan en inglés, y se agregan los aria-label en template.js. Lo demás se mantiene: Google Fonts, no se toca la lógica, lo que ya estaba roto queda igual y no se instala Cypress.
+Lo nuevo en esta versión: todos los textos visibles y accesibles quedan en inglés, y se agregan los `aria-label` en `template.js`. Lo demás se mantiene: Google Fonts, no se toca la lógica, lo que ya estaba roto queda igual y no se instala Cypress.
 
-1. Archivos que tocaría
+## 1. Archivos que tocaría
 
-┌─────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┬────────────┐
-│ Archivo │ Cambio │ ¿Toca │
-│ │ │ lógica? │
-├─────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼────────────┤
-│ src/index.html │ <head> con <link> a Google Fonts (Cinzel y eslogan nuevos; aria-label en .new-todo y │ No │
-│ │ .toggle-all; <div class="desk-lamp" aria-hidden="true"> fuera de .todoapp. │ ───────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼────────────┤
-│ src/template.js │ Solo dentro del texto de createTodoItem: aria-label="Mark quest as complete" en .toggle y aria-label="Delete quest" │ No │
-│ │ en .destroy. Sin tocar clases, estructura ni funciones. │ │
-├─────────────────┼────────────────────────────────────────────────────────────────────────────────────────┼────────────┤
-│ src/app.css │ Todo el rediseño. Reemplaza el .toggle-graph, que no se usa. │ No │
-├─────────────────┼────────────────────────────────────────────────────────────────────────────────────────┼────────────┤
-│ CLAUDE.md │ Registrar la identidad visual, que todo el texto va en inglés y Google Fonts como excepción aprobada. │ — │
-└─────────────────┴────────────────────────────────────────────────────────────────────────────────────────┴────────────┘
+| Archivo | Cambio | ¿Toca lógica? |
+|---|---|---|
+| `src/index.html` | `<head>` con `<link>` a Google Fonts (Cinzel y Lora, `display=swap`); marca y eslogan nuevos; `aria-label` en `.new-todo` y `.toggle-all`; `<div class="desk-lamp" aria-hidden="true">` fuera de `.todoapp`. | No |
+| `src/template.js` | Solo dentro del texto de `createTodoItem`: `aria-label="Mark quest as complete"` en `.toggle` y `aria-label="Delete quest"` en `.destroy`. Sin tocar clases, estructura ni funciones. | No |
+| `src/app.css` | Todo el rediseño. Reemplaza el `.toggle-graph`, que no se usa. | No |
+| `CLAUDE.md` | Registrar la identidad visual, que todo el texto va en inglés y Google Fonts como excepción aprobada. | — |
 
-No cambian controller.js, model.js, store.js, view.js, package.json ni la configuración de webpack.
-Textos, todos en inglés
+No cambian `controller.js`, `model.js`, `store.js`, `view.js`, `package.json` ni la configuración de webpack.
 
-┌─────────────────────────────────────┬───────────────────────────────────────────────────────────────────────┬─────────────────────────────────────┐
-│ Elemento │ │ Cómo │
-├─────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┼─────────────────────────────────────┤
-│ Marca │ QuestLog │ <p class="brand"> nuevo, encima del │
-│ │ │ <h1> │
-├─────────────────────────────────────┼──────────────────────────────────────────┼─────────────────────────────────────┤
-│ Eslogan │ "Turn your tasks into adventures" (propuesta de traducción de │ <p class="tagline"> nuevo │
-│ │ "Convertí tus pendientes en aventuras") │ │
-├─────────────────────────────────────┼──────────────────────────────────────────┼─────────────────────────────────────┤h1> │ todos, sin cambios y visible, con estilo de rótulo de capítulo (❦ │ Lo exige spec.cy.js:482 │
-│ │ todos ❦) │ │
-├─────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┼─────────────────────────────────────┤
-│ Encabezado de la página izquierda │ "New Quest" │ Pseudoelemento CSS │
-├─────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┼─────────────────────────────────────┤
-│ Encabezado de la página derecha │ "Quest Journal" │ Pseudoelemento CSS │
-├─────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┼─────────────────────────────────────┤
-│ Campo, filtros, contador, "Clear │ Sin cambios │ Los verifican los tests o salen de │
-│ completed" y pie │ │ template.js │
-├─────────────────────────────────────┼──────────────────────────────────────────┼─────────────────────────────────────┤
-│ aria-label │ "New quest", "Mark all quests as complete", "Mark quest as complete", │ Atributos │
-│ │ "Delete quest" │ │
-└─────────────────────────────────────┴──────────────────────────────────────────┴─────────────────────────────────────┘
+## 2. Textos, todos en inglés
 
-lang="en" se mantiene.
+| Elemento | Texto | Cómo |
+|---|---|---|
+| Marca | **QuestLog** | `<p class="brand">` nuevo, encima del `<h1>` |
+| Eslogan | **"Turn your tasks into adventures"** (propuesta de traducción de "Convertí tus pendientes en aventuras") | `<p class="tagline">` nuevo |
+| `<h1>` | **todos**, sin cambios y visible, con estilo de rótulo de capítulo (`❦ todos ❦`) | Lo exige `spec.cy.js:482` |
+| Encabezado de la página izquierda | "New Quest" | Pseudoelemento CSS |
+| Encabezado de la página derecha | "Quest Journal" | Pseudoelemento CSS |
+| Campo, filtros, contador, "Clear completed" y pie | Sin cambios | Los verifican los tests o salen de `template.js` |
+| `aria-label` | "New quest", "Mark all quests as complete", "Mark quest as complete", "Delete quest" | Atributos |
+
+`lang="en"` se mantiene.
 
 > **Actualización posterior (2026-11-03):** los `aria-label` de esta tabla cambiaron durante la implementación y la verificación:
 > - Campo nuevo: "New quest" → **"What needs to be done?"**, igual al texto visible (WCAG 2.5.3, caso F3 de `verificacion.md`).
 > - Casillas y botón de borrar: "Mark quest as complete" / "Delete quest" → **"Complete quest: \<título\>"** / **"Delete quest: \<título\>"**, con `aria-labelledby` para que cada tarea tenga un nombre único.
 > - "Mark all as complete" quedó igual al texto visible de su etiqueta.
 
-3. Diseño técnico
+## 3. Diseño técnico
 
-- Escritorio (≥ 1024 px):
-  - body sin el max-width: 550px, con fondo de madera hecho con gradientes.
-  - .todoapp como libro abierto con dos columnas de grilla.
+- **Escritorio (≥ 1024 px):**
+  - `body` sin el `max-width: 550px`, con fondo de madera hecho con gradientes.
+  - `.todoapp` como libro abierto con dos columnas de grilla.
   - Página izquierda: marca, "todos", eslogan y campo de nueva misión.
-  - Página derecha: .main y .footer.
-  - Las páginas, el lomo y el cuero se dibujan en .todoapp y sus pseudoelementos, para que la página derecha no desaparezca cuando JS oculta .main y
-    .footer (view.js:109).
-- Móvil (< 1024 px): una sola página. A 375 px: sin ancho mínimo, filtros que bajan de línea y lámpara oculta.
-- Estados:
+  - Página derecha: `.main` y `.footer`.
+  - Las páginas, el lomo y el cuero se dibujan en `.todoapp` y sus pseudoelementos, para que la página derecha no desaparezca cuando JS oculta `.main` y `.footer` (`view.js:109`).
+- **Móvil (< 1024 px):** una sola página. A 375 px: sin ancho mínimo, filtros que bajan de línea y lámpara oculta.
+- **Estados:**
   - Casilla de pergamino con marca de tinta.
-  - Misión cumplida: tachado sepia y un sello de lacre estático, sin animación, porque la lista se repinta entera con innerHTML.
-  - Filtro activo resaltado con .selected.
-  - Hover y foco con anillo lacre (5.4:1). El dorado solo sobre cuero (6:1) o como decoración. Sobre pergamino tiene 1.8:1.
-- Borrar: el botón pasa de display: none a opacidad 0. Se muestra con :hover o :focus-within, así se alcanza con Tab, y en pantallas táctiles queda
-  siempre visible.
-- Lámpara:
+  - Misión cumplida: tachado sepia y un sello de lacre estático, sin animación, porque la lista se repinta entera con `innerHTML`.
+  - Filtro activo resaltado con `.selected`.
+  - Hover y foco con anillo lacre (5.4:1).
+  - El dorado solo sobre cuero (6:1) o como decoración. Sobre pergamino tiene 1.8:1.
+- **Borrar:** el botón pasa de `display: none` a opacidad 0. Se muestra con `:hover` o `:focus-within`, así se alcanza con Tab, y en pantallas táctiles queda siempre visible.
+- **Lámpara:**
   - Se ve desde 1280 px, en el margen del escritorio.
-  - La llama se anima con transform y opacity.
-  - El halo es un radial-gradient con pointer-events: none.
-  - Con prefers-reduced-motion la llama queda quieta.
+  - La llama se anima con `transform` y `opacity`.
+  - El halo es un `radial-gradient` con `pointer-events: none`.
+  - Con `prefers-reduced-motion` la llama queda quieta.
 
-4. Qué podría romperse
+## 4. Qué podría romperse
 
-1. El layout por los estilos en línea: .main, .footer y .clear-completed reciben display desde JS. Por eso no les cambio el display en el CSS.
-1. Los tests: se conservan todas las clases, la estructura deican. Los aria-label no afectan a los selectores.
-1. "Marcar todas": su <label for> roto queda como está. Si lo arreglara, la lista se marcaría y desmarcaría en el mismo clic. Fuentes: sin red, caen a Georgia y serif.
-1. Lo que ya estaba mal, que queda igual:
+1. **El layout por los estilos en línea:** `.main`, `.footer` y `.clear-completed` reciben `display` desde JS. Por eso no les cambio el `display` en el CSS.
+2. **Los tests:** se conservan todas las clases, la estructura del `<li>` y los textos que verifican. Los `aria-label` no afectan a los selectores.
+3. **"Marcar todas":** su `<label for>` roto queda como está. Si lo arreglara, la lista se marcaría y desmarcaría en el mismo clic.
+4. **Fuentes:** sin red, caen a `Georgia` y `serif`.
+5. **Lo que ya estaba mal, que queda igual:**
    - No se puede editar una tarea con teclado.
-   - Probablemente "marcar todas" con Espacio no actualiza laue voy a confirmar al probar.
+   - Probablemente "marcar todas" con Espacio no actualiza las tareas. Es una inferencia que voy a confirmar al probar.
    - La suite e2e probablemente falla por el orden invertido.
 
    Lo voy a anotar, no arreglar.
 
-1. Cómo lo comprobaría
+## 5. Cómo lo comprobaría
 
-1. Funciones: la lista de "Comportamiento a conservar" del CLAUDE.md, a mano, en tu pestaña con npm run dev. El servidor de 127.0.0.1:7001 hoy no responde; hay que levantarlo.
-1. Teclado: recorrido completo con Tab, Shift+Tab, Espacio y Enter, con foco visible en cada control.
-1. Capturas en evidencias/:
+1. **Funciones:** la lista de "Comportamiento a conservar" del CLAUDE.md, a mano, en tu pestaña con `npm run dev`. El servidor de `127.0.0.1:7001` hoy no responde; hay que levantarlo.
+2. **Teclado:** recorrido completo con Tab, Shift+Tab, Espacio y Enter, con foco visible en cada control.
+3. **Capturas en `evidencias/`:**
    - 1280 × 800, comparada con la de referencia.
-   - 375 × 812, con scrollWidth <= 375.
+   - 375 × 812, con `scrollWidth <= 375`.
    - Con movimiento reducido emulado.
-1. Contraste: cálculo por cada par de colores, más Lighthouse de Chrome.
-1. Build: npm run build para confirmar que compila, sin commitear dist/.
+4. **Contraste:** cálculo por cada par de colores de texto y fondo.
+5. **Build:** `npm run build` para confirmar que compila, sin commitear `dist/`.

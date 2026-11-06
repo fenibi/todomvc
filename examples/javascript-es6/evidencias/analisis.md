@@ -81,6 +81,14 @@ claude afirma que Template.show invierte el arreglo con reverse(), escapa el tí
 
 verificacion: revise el arhcivo y confirme que show utiliza reverse para invertir el orden de las tareas, para cada tarea llama createTodoItem, funciona a la que le envia el identificador, el tituo procesado mediante escape y el estado de completed, para luego generar un elemento li para cada item del arreglo, con la case completed cuando corresponda, un checkbox, titulo y boton para eliminar
 
+## decisión a partir de las referencias
+
+fuentes: referencia 9 (template.js, Template.show con reverse()) y referencia 8 (view.js, repintado de .todo-list con innerHTML)
+
+decisión: conservar el orden invertido de la lista, con la tarea más nueva arriba. Al revisar el borrador de CLAUDE.md vi que el agente detectó que el código invierte el orden y lo planteó como duda, porque difiere de la especificación de TodoMVC, sin incluirlo en lo que había que conservar. Pedí agregarlo en "Comportamiento a conservar", porque es parte del comportamiento original y el rediseño no debe cambiarlo.
+
+# hallazgos de la etapa de verificación
+
 ## referencia 10: Edición de tareas mediante teclado (K12)
 
 archivos: src/template.js y src/view.js  
@@ -90,6 +98,8 @@ error detectado: al crear una tarea y navegar hasta ella utilizando Tab, no es p
 
 verificación: se comprobó que la edición se activa exclusivamente mediante el evento dblclick sobre la etiqueta del título, registrado en view.js. La etiqueta tiene tabindex="-1" y no existe un evento de teclado que permita iniciar la edición. Este comportamiento pertenece a la implementación original de TodoMVC y no fue introducido por los cambios visuales.
 
+reproducción en el original: se repitió la prueba sobre TodoMVC sin rediseño (build del commit base ff43b02e) y falla igual: con Tab solo se alcanza la casilla y ni Enter ni F2 activan la edición. Detalle en verificacion.md, caso K12-O.
+
 impacto: los usuarios que utilizan exclusivamente el teclado no pueden acceder a una de las funcionalidades principales de la aplicación. Esto representa un problema de accesibilidad relacionado con el criterio WCAG 2.1.1 (Teclado).
 
 corrección sugerida: permitir que el título de cada tarea reciba foco mediante tabindex="0" en template.js y agregar en view.js un evento keydown que permita activar la edición con Enter o F2, reutilizando el controlador existente. También sería conveniente devolver el foco al título al finalizar o cancelar la edición y agregar un estilo :focus-visible para identificar visualmente el elemento seleccionado.
@@ -98,7 +108,7 @@ riesgos: incorporar el título al orden de tabulación agrega una parada adicion
 
 comprobación propuesta: navegar con Tab hasta el título de una tarea, presionar Enter o F2 y verificar que se active el modo de edición con el foco en el campo correspondiente. Luego comprobar que Enter guarde los cambios, Escape los cancele y el foco regrese al título.
 
-estado: **pendiente de corrección**. No se implementó la solución porque requiere modificar el manejo de eventos de la capa de vista, lo que excede las modificaciones visuales permitidas por la consigna del workshop.
+estado: **fuera de alcance**. No se implementó la solución porque requiere modificar el manejo de eventos de la capa de vista, lo que excede las modificaciones visuales permitidas por la consigna del workshop.
 
 ## referencia 11: Marcar todas las tareas mediante teclado (K13)
 
@@ -109,15 +119,17 @@ error detectado: al navegar mediante Tab hasta la casilla "Mark all as complete"
 
 verificación: se comprobó que view.js escucha el evento click sobre la etiqueta .toggle-all-label y ejecuta manualmente el clic sobre el input para notificar al controlador. Sin embargo, al utilizar Espacio directamente sobre la casilla, el evento no ejecuta el controlador. Además, en index.html la etiqueta utiliza for="toggle-all", pero el input correspondiente no tiene ese id. Ambos problemas pertenecen a la implementación original de TodoMVC.
 
+reproducción en el original: se repitió la prueba sobre TodoMVC sin rediseño (build del commit base ff43b02e) y falla igual: con Espacio la casilla queda marcada, pero la tarea sigue pendiente y el contador en "1 item left". Detalle en verificacion.md, caso K13-O.
+
 impacto: la funcionalidad de marcar todas las tareas no funciona correctamente mediante teclado y el control puede mostrar un estado diferente al de los datos. Esto afecta la accesibilidad y se relaciona con los criterios WCAG 2.1.1 (Teclado) y 4.1.2 (Nombre, función, valor).
 
 corrección sugerida: agregar id="toggle-all" al input correspondiente en index.html para asociarlo correctamente con su etiqueta. En view.js, reemplazar el evento click de la etiqueta por un evento change sobre el input, notificando al controlador mediante el estado checked de la casilla. También sería necesario eliminar la llamada manual a input.click() para evitar que un mismo clic produzca dos cambios de estado.
 
 riesgos: si se incorpora el evento change sin eliminar el manejador anterior, podrían producirse eventos duplicados que marquen y desmarquen las tareas en una misma interacción. Por este motivo, los cambios deben realizarse y comprobarse en conjunto.
 
-comprobación propuesta: crear varias tareas pendientes, navegar hasta "Mark all as complete" y presionar Espacio. Verificar que todas las tareas cambien a completadas y que el contador muestre cero pendientes. Repetir la operación para comprobar que puedan volver a marcarse como pendientes. Realizar las mismas pruebas utilizando el mouse y ejecutar los tests de Cypress correspondientes a esta funcionalidad.
+comprobación propuesta: crear varias tareas pendientes, navegar hasta "Mark all as complete" y presionar Espacio. Verificar que todas las tareas cambien a completadas y que el contador muestre cero pendientes. Repetir la operación para comprobar que puedan volver a marcarse como pendientes. Realizar las mismas pruebas utilizando el mouse.
 
-estado: **pendiente de corrección**. No se implementó la solución porque requiere modificar el manejo de eventos de la capa de vista. Aunque se trata de un problema preexistente, se decidió documentarlo y proponer una solución sin modificar la lógica original, respetando las restricciones del workshop.
+estado: **fuera de alcance**. No se implementó la solución porque requiere modificar el manejo de eventos de la capa de vista. Aunque se trata de un problema preexistente, se decidió documentarlo y proponer una solución sin modificar la lógica original, respetando las restricciones del workshop.
 
 ## conclusión de los hallazgos
 
@@ -125,4 +137,4 @@ Durante la revisión de accesibilidad y funcionamiento de TodoMVC se identificar
 
 Ambos problemas fueron analizados y se identificaron posibles soluciones, junto con sus riesgos y procedimientos de comprobación. Sin embargo, **no se aplicaron las correcciones**, ya que requieren modificar el manejo de eventos de la aplicación y el objetivo del workshop es realizar mejoras visuales sin alterar la lógica y el comportamiento original de TodoMVC.
 
-Se dejan documentados como hallazgos pendientes para una futura etapa de mantenimiento o mejora de accesibilidad.
+Se dejan documentados como limitaciones heredadas, fuera del alcance de este rediseño, para una futura etapa de mantenimiento o mejora de accesibilidad.

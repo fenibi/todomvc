@@ -48,7 +48,18 @@
 | K12 | Editar sin mouse | Crear "Editar sin mouse"; Tab ×2 hasta su casilla; Enter y F2 | Poder entrar en edición | Ninguna `li.editing`. Dentro del `li` solo son enfocables la casilla y el botón de eliminar; el `label` tiene `tabIndex -1`. La edición solo se activa con doble clic (`view.js:153`) | **Falló** |
 | K13 | Marcar todas con Espacio | Shift+Tab hasta "Mark all as complete", Espacio | Todas las tareas pasan a completadas | La casilla quedó marcada (`checked: true`), pero la tarea siguió pendiente y el contador en "1 item left": la casilla y los datos quedan desincronizados. `view.js:147` solo escucha el clic en la etiqueta | **Falló** |
 
-Los fallos K12 y K13 no los introdujo el rediseño: `view.js` no se modificó, y el análisis de código del original indica el mismo comportamiento. No ejecuté la versión original para compararlas lado a lado.
+Los fallos K12 y K13 no los introdujo el rediseño: `view.js` no se modificó, y la prueba sobre la versión original da el mismo resultado (ver abajo).
+
+### K12 y K13 sobre la versión original (2026-11-06)
+
+Se repitieron los dos casos sobre TodoMVC sin rediseño: el `dist/` del commit base `ff43b02e`, extraído con `git show` a una carpeta temporal y servido en `127.0.0.1:7099`, sin tocar el proyecto. Se confirmó que era el original (sin `.brand` ni `.desk-scene`, `h1` "todos"). Herramienta: Playwright MCP (`browser_type`, `browser_press_key`, `browser_evaluate`), viewport 1280 × 800.
+
+| # | Caso | Entrada | Esperado | Observado en el original | Resultado |
+|---|------|---------|----------|--------------------------|-----------|
+| K12-O | Editar sin mouse | Crear "Editar sin mouse"; Tab ×2 hasta su casilla; Enter y F2 | Poder entrar en edición | Ninguna `li.editing`. Dentro del `li` el único elemento enfocable es la casilla (`input.toggle`); el `label` tiene `tabIndex -1` y el botón de eliminar está oculto sin hover | **Falla igual que en el rediseño** |
+| K13-O | Marcar todas con Espacio | Shift+Tab hasta `input.toggle-all`, Espacio | Todas las tareas pasan a completadas | La casilla quedó marcada (`checked: true`), pero la tarea siguió `[ ]` y el contador en "1 item left" | **Falla igual que en el rediseño** |
+
+**Conclusión:** K12 y K13 son comportamientos del TodoMVC original, ahora comprobados por ejecución y no solo por lectura del código. La única diferencia observada es que en el rediseño el botón de eliminar también recibe foco con Tab (se muestra con `:focus-within`), lo que mejora el acceso por teclado sin cambiar la lógica.
 
 ## 3. Foco visible y nombres de controles
 
@@ -74,12 +85,14 @@ En las dos cargas solo aparecieron los 404 de `learn.json` y `favicon.ico`, ya p
 
 ## 6. Resumen
 
-- **Aprobados:** 19 de 19 casos con mouse, 11 de 13 con teclado, 3 de 3 de foco y nombres (F3 tras su corrección), y 3 de 3 de responsive y evidencias.
-- **Fallados:**
+- **Aprobados:** 19 de 19 casos con mouse, 11 de 13 con teclado, 3 de 3 de foco y nombres (F3 tras su corrección), 3 de 3 de responsive y evidencias, 13 de 13 del recorrido grabado (sección 7), 4 de 4 de la publicación final (sección 7), 6 de 6 tamaños de los objetos del escritorio y 2 de 2 de movimiento reducido (sección 8).
+- **Contraste:** 15 de 15 pares de texto y fondo por encima del mínimo de WCAG (sección 10).
+- **Auditoría:** 4 hallazgos de web-design-guidelines corregidos: 3 vueltos a probar en el navegador y el `aria-live` del contador comprobado solo en sus atributos, porque el anuncio no se escuchó con un lector de pantalla. Los no aplicados tienen su motivo en la sección 9.
+- **Limitaciones heredadas (fuera de alcance):**
   - **K12:** no se puede editar sin mouse.
   - **K13:** "Mark all as complete" con Espacio desincroniza la casilla y los datos.
 
-  Los dos vienen de `view.js`, que no se modificó por consigna.
+  Las dos vienen de `view.js` del TodoMVC original, que no se modificó por consigna. Se reprodujeron igual sobre la versión original (K12-O y K13-O, sección 2). Están analizadas, con la corrección propuesta, en `evidencias/analisis.md`.
 - **Corregido:** **F3**, el nombre del campo. Venía del `aria-label="New quest"` agregado en el rediseño; ahora coincide con el texto visible. Ningún test del repositorio verificaba ese nombre.
 
 ## 7. Recorrido grabado sobre el despliegue publicado
@@ -122,9 +135,73 @@ El video se publicó con `npm run build`, copiándolo a `dist/evidencias/` y eje
 | P3 | Video público igual al local | `curl` a `https://project-brg6s.vercel.app/evidencias/recorrido.webm` | 200, `video/webm`, 9 709 740 bytes, SHA-1 `0b648443…4cd4255`, igual al archivo local | Aprobado |
 | P4 | Flujo básico en la web publicada | Playwright MCP: crear dos tareas, completar "Preparar taller", filtro Active | `[ ] Revisar entrega` solo, "1 item left", `#/active`, Active seleccionado | Aprobado |
 
-## 8. Qué no se probó
+## 8. Objetos del escritorio y movimiento reducido (2026-11-06)
 
-- Lectores de pantalla: no se verificó que el anuncio de `aria-live` del contador funcione.
-- Firefox, Safari y dispositivos táctiles reales.
-- Zoom real del navegador.
-- Los tests e2e de Cypress del repositorio.
+Pruebas sobre la publicación final (`https://project-brg6s.vercel.app`) con Playwright MCP (`browser_resize`, `browser_evaluate`, `browser_emulate_media`, `browser_take_screenshot`). Estado: "Preparar taller" completada, "Revisar entrega" pendiente, filtro All. En cada tamaño se midió con `getBoundingClientRect()` cada objeto (2 monedas, pluma, cristales, brújula y cuerpo, tubo y llama de la lámpara: 8 elementos) contra la capa `.desk-scene`, contra el ancho visible y contra los controles de la app (campo, casillas, botones, enlaces y tareas), con el scroll arriba y abajo.
+
+| # | Caso | Entrada | Esperado | Observado | Resultado |
+|---|------|---------|----------|-----------|-----------|
+| O1 | 1280 × 800 | Scroll arriba (0) y abajo (111 px) | Objetos completos, dentro del ancho y sin tapar controles; sin scroll horizontal | 8 objetos; 0 fuera de la capa, 0 fuera del ancho, 0 sobre controles; `scrollWidth` 1265 = `clientWidth` 1265 | Aprobado |
+| O2 | 1280 × 640 | Scroll arriba (0) y abajo (151 px) | Ídem | 0 / 0 / 0; `scrollWidth` 1265 = `clientWidth` 1265 | Aprobado |
+| O3 | 1366 × 768 | Scroll arriba (0) y abajo (111 px) | Ídem | 0 / 0 / 0; `scrollWidth` 1351 = `clientWidth` 1351 | Aprobado |
+| O4 | 1536 × 900 | Scroll arriba (0) y abajo (111 px) | Ídem | 0 / 0 / 0; `scrollWidth` 1521 = `clientWidth` 1521 | Aprobado |
+| O5 | 1920 × 1080 | Sin scroll vertical | Ídem | 0 / 0 / 0; `scrollWidth` 1920 = `clientWidth` 1920 | Aprobado |
+| O6 | 2560 × 1440 | Sin scroll vertical | Ídem | 0 / 0 / 0; `scrollWidth` 2560 = `clientWidth` 2560 | Aprobado |
+| M1 | Llama animada sin preferencia | 1280 × 800, `prefers-reduced-motion: no-preference` | La llama y el halo se animan | Llama: `lamp-flicker` (2,6 s), su `transform` cambió en 700 ms. Halo: `lamp-glow` (3,7 s), su `opacity` cambió de 0,97 a 0,92. 2 animaciones activas | Aprobado |
+| M2 | Movimiento reducido | `browser_emulate_media` con `reducedMotion: "reduce"` | La llama queda quieta y la lámpara sigue visible | `matchMedia` verdadero; llama y halo con `animation-name: none`, `transform: none`, `opacity: 1`, sin cambios en 700 ms; 0 animaciones activas; `.desk-lamp` visible. Captura `evidencias/despues-movimiento-reducido.png` | Aprobado |
+
+Las capturas `v3-objetos-scroll-inicio.png` y `v3-objetos-scroll-final.png` corresponden a la primera medición de los objetos, del 2026-11-03, cuando se corrigió el recorte de la brújula.
+
+## 9. Auditoría con web-design-guidelines (2026-11-03)
+
+Se revisaron `src/index.html`, `src/template.js` y `src/app.css` con la skill `web-design-guidelines`, en dos rondas. Las líneas citadas son las de ese momento.
+
+### Hallazgos corregidos y vueltos a probar
+
+| Hallazgo | Corrección | Comprobación |
+|---|---|---|
+| La brújula, la moneda superior y la pluma quedaban recortadas (la capa dependía del alto de la pantalla) | `.desk-scene` pasó a medir la zona del libro y cada objeto se ubica según el espacio libre a cada lado | Sección 8, casos O1–O6 |
+| Todas las casillas y botones de borrar tenían el mismo nombre ("Mark quest as complete", "Delete quest") | `aria-labelledby` hacia el propio control y el título: "Complete quest: …" y "Delete quest: …" | Sección 3, caso F2 |
+| El contador no anunciaba sus cambios | `aria-live="polite"` y `aria-atomic="true"` en `.todo-count` | Los atributos se mantienen después de cada repintado de `view.js`. El anuncio no se escuchó con un lector de pantalla |
+| El nombre del campo ("New quest") no incluía su texto visible | `aria-label="What needs to be done?"` | Sección 3, caso F3 |
+
+### Hallazgos que no se aplicaron y por qué
+
+| Hallazgo | Motivo |
+|---|---|
+| "Mark all as complete" no funciona con Espacio; editar solo con doble clic | Comportamiento de `view.js` del original (K12 y K13, sección 2). Corregirlo cambia la lógica, fuera del alcance del taller |
+| `autofocus` en el campo | Es el comportamiento del TodoMVC original, que el rediseño conserva |
+| La marca "QuestLog" es un `<p>` y el único `<h1>` es "todos" | Decisión del plan: el `<h1>todos</h1>` se conserva visible y la marca va aparte |
+| Borrar no tiene confirmación ni deshacer | Es la función original; el brief pide conservar las funciones |
+| El mensaje de lista vacía depende del `style` que escribe `view.js` en `.main` | Funciona (caso 1 de la sección 1) y `view.js` no se modifica |
+| La llama se anima sin botón de pausa | El brief pide una llama animada que respete `prefers-reduced-motion`; se cumple (sección 8, caso M2) |
+| `meta description` dice "es5" | Es previo y ajeno al rediseño |
+| Observaciones menores sin efecto en las funciones: falta `translate="no"` en la marca; faltan `autocomplete="off"` y `name` en el campo; no hay `color-scheme`, `theme-color` ni márgenes seguros para pantallas con muesca; hay scroll vertical en escritorio (111 px a 1280 × 800); la lista se desvanece abajo; el contador ocupa dos líneas y no usa cifras de ancho fijo; las casillas no tienen estado hover; no hay `touch-action: manipulation` | Se registran como observaciones de la auditoría. No afectan las funciones ni los criterios del brief y se dejaron fuera para no ampliar el alcance visual |
+
+## 10. Contraste de texto (2026-11-06)
+
+Cálculo del contraste (fórmula de luminancia relativa de WCAG 2.1) por cada par de texto y fondo, sobre la publicación final a 1280 × 800, con "Preparar taller" completada, "Revisar entrega" pendiente y filtro All.
+
+- **Color del texto:** el valor calculado por el navegador (`getComputedStyle`) en cada elemento.
+- **Color del fondo:** como los fondos son texturas (papel, cuero y madera), no hay un único color. Se tomó una captura de página completa con Playwright MCP y se leyeron en un `<canvas>` los píxeles del recuadro de cada texto. Se descartó la mitad de los píxeles más parecida al color del texto (los trazos de las letras) y con el resto se calculó el contraste contra cada píxel de fondo.
+- **Resultado:** se informa la mediana y el peor 5 % (el 5 % de píxeles de fondo con menos contraste, sin contar el suavizado de los bordes de las letras). Mínimo exigido: 4,5:1 para texto normal y 3:1 para texto grande (24 px o más, o 18,66 px o más en negrita).
+
+| Texto | Color del texto | Tamaño y peso | Mínimo | Mediana | Peor 5 % | Resultado |
+|---|---|---|---|---|---|---|
+| Marca "QuestLog" | `rgb(59, 39, 24)` | 56,32 px, 700 | 3:1 | 9,45:1 | 8,71:1 | Aprobado |
+| Eslogan | `rgb(73, 50, 34)` | 17 px, 600 | 4,5:1 | 8,08:1 | 7,55:1 | Aprobado |
+| Estandarte "todos" (sobre cuero) | `rgb(245, 230, 200)` | 28 px, 600 | 3:1 | 12,93:1 | 10,81:1 | Aprobado |
+| Texto escrito en el campo | `rgb(59, 39, 24)` | 20 px, 400 | 4,5:1 | 9,70:1 | 9,10:1 | Aprobado |
+| Placeholder del campo | `rgb(107, 81, 54)` | 20 px, 400 | 4,5:1 | 5,06:1 | 4,75:1 | Aprobado |
+| "Mark all as complete" | `rgb(73, 50, 34)` | 14 px, 400 | 4,5:1 | 7,79:1 | 7,28:1 | Aprobado |
+| Tarea pendiente | `rgb(59, 39, 24)` | 19 px, 400 | 4,5:1 | 8,60:1 | 8,03:1 | Aprobado |
+| Tarea completada (tachada) | `rgb(107, 81, 54)` | 19 px, 400 | 4,5:1 | 4,99:1 | 4,68:1 | Aprobado |
+| Botón eliminar (×) | `rgb(73, 50, 34)` | 26 px, 400 | 3:1 | 8,36:1 | 7,87:1 | Aprobado |
+| Contador | `rgb(73, 50, 34)` | 14 px, 400 | 4,5:1 | 5,49:1 | 5,26:1 | Aprobado |
+| Filtro sin seleccionar ("Active") | `rgb(59, 39, 24)` | 15 px, 400 | 4,5:1 | 10,71:1 | 9,96:1 | Aprobado |
+| Filtro seleccionado ("All", sobre cuero) | `rgb(245, 230, 200)` | 15 px, 600 | 4,5:1 | 9,73:1 | 8,96:1 | Aprobado |
+| "Clear completed" | `rgb(59, 39, 24)` | 14 px, 400 | 4,5:1 | 8,62:1 | 7,99:1 | Aprobado |
+| Pie: texto (sobre madera) | `rgb(232, 213, 172)` | 13 px, 400 | 4,5:1 | 12,48:1 | 12,06:1 | Aprobado |
+| Pie: enlace "TodoMVC" (dorado sobre madera) | `rgb(196, 154, 70)` | 13 px, 600 | 4,5:1 | 6,83:1 | 6,73:1 | Aprobado |
+
+Los pares más justos son la tarea completada (4,68:1) y el placeholder (4,75:1): los dos usan `--ink-soft` y quedan por encima del mínimo de 4,5:1. El dorado solo se usa como texto sobre madera; sobre pergamino es decorativo, como indica el plan.

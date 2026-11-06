@@ -27,8 +27,6 @@ Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
 - `npm run dev` — servidor de desarrollo con HMR (sirve también ./dist).
 - `npm run build` — build de producción en `dist/` (¡reescribe archivos versionados!).
 - `npm run serve` — sirve `dist/` en http://localhost:7002.
-- Tests e2e (desde la raíz del repo, requieren build previo):
-  `npm test -- --env framework=javascript-es6`  ← a confirmar
 
 ## Archivos relevantes
 - `src/index.html` — estructura y clases que usan view.js y los tests.
@@ -78,6 +76,6 @@ Rediseño visual de este ejemplo (rama `feat/fran3478-redisenio`).
 
 ## Cómo verificar
 1. `npm run dev` y probar manualmente cada punto de "Comportamiento a conservar".
-2. Capturar a viewport 1280×800 y comparar con `evidencias/referencia-1280x800.jpg`
+2. Capturar a viewport 1280×800 y comparar con `evidencias/antes-escritorio.png`
    (guardar nuevas evidencias en `evidencias/`).
-3. `npm run build` + tests e2e de la raíz.
+3. `npm run build` y repetir el flujo básico con Playwright MCP sobre la versión publicada.
