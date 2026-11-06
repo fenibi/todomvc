@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-framework="javascript-es6">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="A TodoMVC written with JavaScript es5 features." />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>TodoMVC: JavaScript Es6 Webpack</title>
+    </head>
+    <body>
+        <section class="todoapp">
+            <header class="header">
+                <button type="button" role="switch" aria-checked="true" class="theme-toggle">Dark mode</button>
+                <h1>todos</h1>
+                <div class="add-row">
+                    <input class="new-todo" placeholder="What needs to be done?" aria-label="New task" autofocus />
+                    <button type="button" class="add-todo">Add</button>
+                </div>
+            </header>
+            <main class="main">
+                <div class="toggle-all-container">
+                    <input class="toggle-all" type="checkbox" aria-label="Mark all as complete" />
+                    <label class="toggle-all-label" for="toggle-all">Mark all as complete</label>
+                </div>
+                <ul class="todo-list"></ul>
+                <nav class="pagination" aria-label="Pagination" hidden></nav>
+            </main>
+            <footer class="footer">
+                <span class="todo-count" aria-live="polite"></span>
+                <ul class="filters">
+                    <li>
+                        <a href="#/" class="selected">All</a>
+                    </li>
+                    <li>
+                        <a href="#/active">Active</a>
+                    </li>
+                    <li>
+                        <a href="#/completed">Completed</a>
+                    </li>
+                </ul>
+                <button class="clear-completed">Clear completed</button>
+            </footer>
+        </section>
+        <footer class="info">
+            <p>Double-click to edit a todo</p>
+			<p>Created by the TodoMVC Team</p>
+			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+        </footer>
+		<script src="./base.js"></script>
+    </body>
+</html>
